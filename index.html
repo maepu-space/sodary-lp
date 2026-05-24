@@ -6,14 +6,14 @@
 <title>そだリー — 育てる観察日記</title>
 
 <!-- ===== SEO ===== -->
-<meta name="description" content="プランター・ベランダ・小さな畑をやっている方向けの家庭菜園絵日記アプリ。写真で記録、AIが病害虫を診断、天気連携で今日すべきことを提案。野菜も草花も対応。無料から使えます。">
-<meta name="keywords" content="家庭菜園,絵日記,野菜,草花,プランター,栽培記録,AI診断,病害虫,そだリー">
+<meta name="description" content="プランター・ベランダ・小さな畑をやっている方向けの家庭菜園観察日記アプリ。写真で記録、AIが病害虫を診断、天気連携で今日すべきことを提案。野菜も草花も対応。無料から使えます。">
+<meta name="keywords" content="家庭菜園,観察日記,野菜,草花,プランター,栽培記録,AI診断,病害虫,そだリー">
 <link rel="canonical" href="https://maepu-space.github.io/sodary-lp/">
 
 <!-- ===== OGP（SNSシェア用） ===== -->
 <meta property="og:type"        content="website">
 <meta property="og:title"       content="そだリー — 育てる観察日記">
-<meta property="og:description" content="プランター・ベランダ・小さな畑向けの家庭菜園絵日記アプリ。AIが病害虫を診断、天気連携で今日すべきことを提案。無料から使えます。">
+<meta property="og:description" content="プランター・ベランダ・小さな畑向けの家庭菜園観察日記アプリ。AIが病害虫を診断、天気連携で今日すべきことを提案。無料から使えます。">
 <meta property="og:url"         content="https://maepu-space.github.io/sodary-lp/">
 <meta property="og:image"       content="https://maepu-space.github.io/sodary-lp/ogp.png">
 <meta property="og:image:width"  content="1200">
@@ -25,7 +25,7 @@
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:site"        content="@sodary_app">
 <meta name="twitter:title"       content="そだリー — 育てる観察日記">
-<meta name="twitter:description" content="プランター・ベランダ・小さな畑向けの家庭菜園絵日記アプリ。AIが病害虫を診断。無料から使えます。">
+<meta name="twitter:description" content="プランター・ベランダ・小さな畑向けの家庭菜園観察日記アプリ。AIが病害虫を診断。無料から使えます。">
 <meta name="twitter:image"       content="https://maepu-space.github.io/sodary-lp/ogp.png">
 
 <!-- ===== Google Analytics ===== -->
@@ -47,7 +47,7 @@
   "@type": "WebApplication",
   "name": "そだリー",
   "url": "https://maepu-space.github.io/sodary-lp/",
-  "description": "プランター・ベランダ・小さな畑向けの家庭菜園絵日記アプリ。AIが病害虫を診断、天気連携で今日すべきことを提案。",
+  "description": "プランター・ベランダ・小さな畑向けの家庭菜園観察日記アプリ。AIが病害虫を診断、天気連携で今日すべきことを提案。",
   "applicationCategory": "LifestyleApplication",
   "operatingSystem": "Web, iOS, Android",
   "offers": {
@@ -615,151 +615,7 @@
   .compare .section-sub { color: rgba(255,255,255,0.6); }
   .compare .section-label { color: var(--sprout); }
 
-  .compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 56px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-    overflow: hidden;
-  }
-
-  .compare-table th {
-    padding: 18px 24px;
-    text-align: left;
-    font-size: 13px;
-    font-weight: 700;
-    background: rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.7);
-    letter-spacing: 0.05em;
-  }
-
-  .compare-table th.highlight {
-    background: var(--moss);
-    color: white;
-    font-size: 15px;
-  }
-
-  .compare-table td {
-    padding: 16px 24px;
-    font-size: 14px;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    color: rgba(255,255,255,0.8);
-  }
-
-  .compare-table td.highlight {
-    background: rgba(107,143,71,0.2);
-    color: white;
-    font-weight: 700;
-  }
-
-  .check { color: var(--sprout); font-size: 18px; }
-  .cross { color: rgba(255,255,255,0.3); }
-
-  /* ======= PRICING ======= */
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-top: 56px;
-    align-items: end;
-  }
-
-  .price-card {
-    background: white;
-    border-radius: 24px;
-    padding: 32px 24px;
-    border: 2px solid var(--petal);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-  }
-
-  .price-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(61,43,31,0.1);
-  }
-
-  .price-card.featured {
-    border-color: var(--moss);
-    transform: scale(1.04);
-    box-shadow: 0 20px 60px rgba(74,103,65,0.2);
-  }
-
-  .price-card.featured:hover {
-    transform: scale(1.04) translateY(-4px);
-  }
-
-  .price-badge {
-    position: absolute;
-    top: -14px; left: 50%;
-    transform: translateX(-50%);
-    background: var(--moss);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 16px;
-    border-radius: 12px;
-    white-space: nowrap;
-    letter-spacing: 0.05em;
-  }
-
-  .price-plan {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--mist);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .price-name {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--soil);
-    margin-bottom: 6px;
-  }
-
-  .price-amount {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 40px;
-    font-weight: 800;
-    color: var(--soil);
-    line-height: 1;
-    margin: 16px 0 4px;
-  }
-
-  .price-amount span {
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--mist);
-  }
-
-  .price-desc {
-    font-size: 12px;
-    color: var(--mist);
-    margin-bottom: 24px;
-    line-height: 1.6;
-  }
-
-  .price-features {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 28px;
-  }
-
-  .price-features li {
-    font-size: 13px;
-    color: var(--ink);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    line-height: 1.5;
-  }
-
-  .price-features li .icon { color: var(--moss); flex-shrink: 0; }
+/* ======= EDUCATION ======= */
 
   /* ======= EDUCATION ======= */
   .education { background: linear-gradient(135deg, #e8f4e0 0%, #f0e8d4 100%); }
@@ -946,18 +802,15 @@
     .targets-grid { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: 1fr; gap: 40px; }
     .features-grid.reverse { direction: ltr; }
-    .pricing-grid { grid-template-columns: 1fr 1fr; }
     .edu-grid { grid-template-columns: 1fr; }
     .section { padding: 64px 28px; }
     header { padding: 14px 20px; }
     nav { display: none; }
     footer { padding: 40px 28px; flex-direction: column; text-align: center; }
-    .cta-final { padding: 80px 28px; }
-    .compare-table { font-size: 12px; }
-    .compare-table th, .compare-table td { padding: 12px 14px; }
-    .price-card.featured { transform: none; }
   }
 </style>
+<!-- X widgets.js: headで1回だけ読み込む（公式推奨） -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
 
@@ -978,7 +831,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left reveal">
-    <div class="hero-tag">🌿 家庭菜園の絵日記アプリ</div>
+    <div class="hero-tag">🌿 家庭菜園の観察日記アプリ</div>
     <h1 class="hero-title">
       育てる毎日を、<br>
       <em>記録</em>しよう。
@@ -992,7 +845,7 @@
       <a href="https://x.com/sodary_app" target="_blank" class="btn-primary">𝕏 開発情報をフォローする</a>
       <a href="#features" class="btn-outline">機能を見る</a>
     </div>
-    <p class="hero-note">🌱 現在開発中・リリース情報はXで発信中</p>
+    <p class="hero-note">🌱 現在開発中！最新情報はXで発信中</p>
   </div>
 
   <div class="hero-right reveal">
@@ -1060,41 +913,26 @@
       <span class="target-emoji">🪴</span>
       <div class="target-title">ベランダ・プランター族</div>
       <div class="target-sub">マンションや都市部でプランターを楽しむ方。限られたスペースでも、野菜も花もバランスよく育てたい。</div>
-      <div class="target-tags">
-        <span class="tag">30〜50代女性</span>
-        <span class="tag">マンション</span>
-        <span class="tag">都市部</span>
       </div>
-    </div>
 
     <div class="target-card reveal">
       <span class="target-emoji">🏡</span>
       <div class="target-title">庭付き一戸建て族</div>
       <div class="target-sub">庭の一角を菜園に。定年後の趣味として本格的に取り組みたい方にも、記録で成長が見えてくる。</div>
-      <div class="target-tags">
-        <span class="tag">40〜60代</span>
-        <span class="tag">一戸建て</span>
-        <span class="tag">趣味</span>
       </div>
-    </div>
 
     <div class="target-card reveal">
       <span class="target-emoji">💡</span>
       <div class="target-title">室内・水耕栽培族</div>
-      <div class="target-sub">インドア派のガジェット好きに。センサーキットで温湿度・照度を自動記録。データで育てる楽しさを。</div>
-      <div class="target-tags">
-        <span class="tag">20〜40代</span>
-        <span class="tag">ガジェット好き</span>
-        <span class="tag">水耕栽培</span>
+      <div class="target-sub">室内・水耕栽培で植物を育てたい方に。センサーキットで温湿度・照度を自動記録。データで育てる楽しさを。</div>
       </div>
-    </div>
   </div>
 </section>
 
 <!-- FEATURES -->
 <section class="section" id="features">
   <span class="section-label reveal">主な機能</span>
-  <h2 class="section-title reveal">「農業ツール」じゃなくて<br>「絵日記」感覚で使える</h2>
+  <h2 class="section-title reveal">「農業ツール」じゃなくて<br>「観察日記」感覚で使える</h2>
 
   <!-- Feature 1 -->
   <div class="features-grid">
@@ -1107,7 +945,7 @@
     <div class="reveal">
       <span class="feature-label">記録</span>
       <h3 class="feature-title">写真1枚から始まる<br>成長タイムライン</h3>
-      <p class="feature-desc">撮影した写真にコメントを添えるだけ。SNSのフィードのように、芽が出た日・花が咲いた日・収穫した日が、全部「絵日記」になって残ります。</p>
+      <p class="feature-desc">撮影した写真にコメントを添えるだけ。SNSのフィードのように、芽が出た日・花が咲いた日・収穫した日が、全部「観察日記」になって残ります。</p>
       <ul class="feature-list">
         <li>写真付きメモをタイムラインで確認</li>
         <li>水やり・施肥・収穫をワンタップ記録</li>
@@ -1132,7 +970,7 @@
       <h3 class="feature-title">写真1枚で<br>病害虫を即診断</h3>
       <p class="feature-desc">葉っぱの様子がおかしい…？スマホで写真を撮るだけ。AIが病害虫を診断して、具体的な対処法を提案します。競合サービスにはない機能です。</p>
       <ul class="feature-list">
-        <li>病害虫を写真1枚で即診断（Claude AI使用）</li>
+        <li>病害虫を写真1枚で即診断</li>
         <li>野菜名を入れるだけでAIが育て方を自動設定</li>
         <li>わき芽かき・摘芯・施肥のタイミングを自動提案</li>
         <li>雨の日は水やりスキップを自動案内</li>
@@ -1187,75 +1025,7 @@
   </div>
 </section>
 
-<!-- COMPARE -->
-<section class="section compare" id="compare">
-  <span class="section-label reveal">競合比較</span>
-  <h2 class="section-title reveal">趣味の家庭菜園市場は<br>完全な空白地帯</h2>
-  <p class="section-sub reveal">既存の農業アプリは農家・施設向けがほとんど。そだリーは趣味の家庭菜園ユーザーだけを見ています。</p>
 
-  <div class="reveal" style="overflow-x:auto;">
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th>機能・特徴</th>
-          <th>栽培アシストAI<br>(AgriweB)</th>
-          <th>farmo</th>
-          <th class="highlight">🌱 そだリー</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>メインターゲット</td>
-          <td>農家・JA</td>
-          <td>農家・施設</td>
-          <td class="highlight">趣味の家庭菜園 ✅</td>
-        </tr>
-        <tr>
-          <td>価格帯</td>
-          <td>月額880円〜</td>
-          <td>数万円〜</td>
-          <td class="highlight">リリース時に公開予定</td>
-        </tr>
-        <tr>
-          <td>草花・観葉植物対応</td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td class="highlight"><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>写真＋日記のタイムライン</td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td class="highlight"><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>AI病害虫診断（写真1枚）</td>
-          <td><span class="check">✓</span></td>
-          <td><span class="cross">✗</span></td>
-          <td class="highlight"><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>DIYセンサーキット</td>
-          <td><span class="cross">✗</span></td>
-          <td>高価な専用機器</td>
-          <td class="highlight">開発中・予定あり ✅</td>
-        </tr>
-        <tr>
-          <td>教育向け対応</td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td class="highlight"><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>プランター・室内対応</td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td class="highlight"><span class="check">✓</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
 
 <!-- DEVELOPING -->
 <section class="section" id="pricing" style="background:var(--fog);">
@@ -1294,14 +1064,14 @@
 <section class="section education" id="education">
   <span class="section-label reveal">教育向け</span>
   <h2 class="section-title reveal">子どもの「育てる体験」を<br>データで深める</h2>
-  <p class="section-sub reveal">センサーキットは教育現場にも対応。小学生の絵日記感覚から、高校生のデータ活用まで、段階的な学びをサポートします。</p>
+  <p class="section-sub reveal">センサーキットは教育現場にも対応。小学生の観察日記感覚から、高校生のデータ活用まで、段階的な学びをサポートします。</p>
 
   <div class="edu-grid">
     <div class="edu-card reveal">
       <div class="edu-grade">小学生向け</div>
       <span class="edu-icon">✏️</span>
-      <div class="edu-title">絵日記感覚で記録</div>
-      <div class="edu-desc">写真を撮って、コメントを書くだけ。「芽が出た！」「花が咲いた！」を絵日記みたいに残せます。難しい操作は一切なし。</div>
+      <div class="edu-title">観察日記感覚で記録</div>
+      <div class="edu-desc">写真を撮って、コメントを書くだけ。「芽が出た！」「花が咲いた！」を観察日記として残せます。難しい操作は一切なし。</div>
       <div class="edu-tags">
         <span class="tag">写真記録</span>
         <span class="tag">シンプルUI</span>
@@ -1333,11 +1103,6 @@
       </div>
     </div>
   </div>
-
-  <div style="text-align:center;margin-top:48px;" class="reveal">
-    <a href="#" class="btn-primary" style="font-size:16px;padding:14px 40px;">教育向けプランを相談する</a>
-    <p style="margin-top:12px;font-size:13px;color:var(--mist);">学校・塾・家庭学習など、ご利用シーンに合わせてご提案します</p>
-  </div>
 </section>
 
 <!-- SNS SECTION -->
@@ -1349,7 +1114,7 @@
   </div>
 
   <!-- X タイムライン埋め込み -->
-  <div class="reveal" style="max-width:540px;margin:0 auto 40px;">
+  <div style="max-width:540px;margin:0 auto 40px;">
     <a class="twitter-timeline"
        data-lang="ja"
        data-height="500"
@@ -1358,7 +1123,6 @@
        href="https://twitter.com/sodary_app">
       @sodary_app のツイートを読み込み中...
     </a>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   </div>
 
   <div style="text-align:center;" class="reveal">
@@ -1369,14 +1133,7 @@
   </div>
 </section>
 
-<!-- CTA FINAL -->
-<section class="cta-final">
-  <h2 class="section-title reveal" style="margin-bottom:24px;">リリースを<br>いち早く受け取ろう</h2>
-  <p class="reveal">そだリーは現在開発中です。<br>Xをフォローしてリリース情報をお見逃しなく🌱</p>
-  <div class="reveal" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
-    <a href="https://x.com/sodary_app" target="_blank" class="btn-white">𝕏 フォローする</a>
-  </div>
-</section>
+
 
 <!-- FOOTER -->
 <footer>
