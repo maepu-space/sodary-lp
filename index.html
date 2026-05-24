@@ -10,6 +10,9 @@
 <meta name="keywords" content="家庭菜園,観察日記,野菜,草花,プランター,栽培記録,AI診断,病害虫,そだリー">
 <link rel="canonical" href="https://maepu-space.github.io/sodary-lp/">
 
+<!-- ===== CSP（Content Security Policy） ===== -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://platform.twitter.com https://www.googletagmanager.com; frame-src 'self' https://x.com https://twitter.com https://platform.twitter.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
+
 <!-- ===== OGP（SNSシェア用） ===== -->
 <meta property="og:type"        content="website">
 <meta property="og:title"       content="そだリー — 育てる観察日記">
@@ -731,8 +734,6 @@
     footer { padding: 40px 28px; flex-direction: column; text-align: center; }
   }
 </style>
-<!-- X widgets.js: headで1回だけ読み込む（公式推奨） -->
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
 
@@ -1035,14 +1036,15 @@
   </div>
 
   <!-- X タイムライン埋め込み -->
-  <div style="max-width:540px;margin:0 auto 40px;">
-    <a class="twitter-timeline"
+  <div style="max-width:540px;margin:0 auto 40px;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(61,43,31,0.08);">
+    <a class="x-timeline"
        data-lang="ja"
        data-height="500"
        data-theme="light"
-       data-chrome="noheader nofooter noborders"
-       href="https://twitter.com/sodaly_app">
-      @sodaly_app のツイートを読み込み中...
+       data-chrome="noheader nofooter noborders transparent"
+       data-tweet-limit="5"
+       href="https://x.com/sodaly_app">
+      読み込み中...
     </a>
   </div>
 
@@ -1060,7 +1062,7 @@
   <div class="footer-links">
     <a href="#">プライバシーポリシー</a>
     <a href="#">利用規約</a>
-    <a href="mailto:sodaly.app@gmail.com">お問い合わせ</a>
+    <a href="mailto:sodaly.app@gmail.com" title="sodaly.app@gmail.com">お問い合わせ</a>
     <a href="mailto:sodaly.app@gmail.com?subject=教育向け相談">教育向け相談</a>
   </div>
   <div class="footer-copy">© 2026 そだリー. All rights reserved.</div>
@@ -1084,5 +1086,8 @@
 
   reveals.forEach(el => observer.observe(el));
 </script>
+
+<!-- X widgets.js: DOM完成後に読み込む -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
