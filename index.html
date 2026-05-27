@@ -1059,13 +1059,85 @@
 <footer>
   <div class="footer-logo">🌱 そだリー</div>
   <div class="footer-links">
-    <a href="#">プライバシーポリシー</a>
+    <a href="#" onclick="document.getElementById('privacyModal').style.display='flex';return false;">プライバシーポリシー</a>
     <a href="#" onclick="document.getElementById('tosModal').style.display='flex';return false;">利用規約</a>
     <a href="mailto:sodary.app@ymail.ne.jp" title="sodary.app@ymail.ne.jp">お問い合わせ</a>
     <a href="mailto:sodary.app@ymail.ne.jp?subject=教育向け相談">教育向け相談</a>
   </div>
   <div class="footer-copy">© 2026 そだリー. All rights reserved.</div>
 </footer>
+
+<!-- ===== プライバシーポリシーモーダル ===== -->
+<div id="privacyModal" style="display:none;position:fixed;inset:0;background:rgba(42,31,23,0.6);z-index:500;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#faf6ee;border-radius:28px 28px 0 0;padding:28px 24px 48px;width:100%;max-width:640px;max-height:85vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);">
+    <div style="width:40px;height:4px;background:#f2e8d9;border-radius:2px;margin:0 auto 24px;"></div>
+    <h2 style="font-family:'Shippori Mincho',serif;font-size:22px;font-weight:800;color:#3d2b1f;margin-bottom:6px;">プライバシーポリシー</h2>
+    <p style="font-size:12px;color:#8a7b6e;margin-bottom:28px;">最終更新日：2026年5月27日</p>
+
+    <div style="font-size:14px;color:#2a1f17;line-height:1.9;">
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第1条（基本方針）</h3>
+      <p>そだリー（以下「本サービス」）は、ユーザーのプライバシーを尊重し、個人情報を適切に管理・保護することを基本方針とします。本ポリシーは、本サービスが収集する情報の種類・目的・管理方法について説明するものです。</p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第2条（収集する情報）</h3>
+      <p>本サービスは、以下の情報を収集します。</p>
+      <p style="margin-top:8px;">
+        <strong>アカウント情報：</strong>Googleアカウントを通じた氏名・メールアドレス・プロフィール写真URL<br>
+        <strong>プロフィール情報：</strong>お住まいの都道府県・主な栽培環境・栽培歴（登録時に任意入力）<br>
+        <strong>利用データ：</strong>登録した植物の種類・記録内容・写真・AI相談の利用履歴<br>
+        <strong>統計データ：</strong>機能の利用頻度・AI相談のキーワード（匿名集計）<br>
+        <strong>マーケティング同意：</strong>パートナー企業からのお得情報受け取りの可否（任意）
+      </p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第3条（情報の利用目的）</h3>
+      <p>収集した情報は、以下の目的で利用します。</p>
+      <p style="margin-top:8px;">
+        ・本サービスの提供・改善・新機能の開発<br>
+        ・ユーザーへのAIアドバイス精度の向上<br>
+        ・地域・季節に合わせた情報の提供<br>
+        ・個人を特定できない形に加工した統計データとして、パートナー企業（ホームセンター・園芸店・農業資材メーカー等）への情報提供<br>
+        ・マーケティング同意済みユーザーへのパートナー企業からのクーポン・お得情報の提供（将来予定）
+      </p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第4条（第三者提供について）</h3>
+      <p>本サービスは、以下の場合を除き、ユーザーの個人情報を第三者に提供しません。</p>
+      <p style="margin-top:8px;">
+        ・ユーザーの同意がある場合<br>
+        ・個人を特定できない形に加工した統計データとしての提供<br>
+        ・法令に基づく開示要求があった場合
+      </p>
+      <p style="margin-top:8px;">なお、匿名化・集計処理した栽培トレンドデータは、農業・園芸関連の事業者への統計情報として提供する場合があります。この場合、個人が特定される情報は一切含みません。</p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第5条（データの保管）</h3>
+      <p>ユーザーデータはGoogle LLC（Firebase）のサーバーに保管されます。Googleのプライバシーポリシーについては <a href="https://policies.google.com/privacy" target="_blank" style="color:#4a6741;">こちら</a> をご確認ください。</p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第6条（ユーザーの権利）</h3>
+      <p>ユーザーは、以下の権利を有します。</p>
+      <p style="margin-top:8px;">
+        ・自身のデータの閲覧・修正を行う権利<br>
+        ・マーケティング同意をいつでも撤回する権利<br>
+        ・アカウントを削除し、関連するすべてのデータの消去を求める権利
+      </p>
+      <p style="margin-top:8px;">アカウント削除はアプリ内の設定画面から行えます。削除後、すべての個人データは30日以内に完全に消去されます。</p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第7条（Cookieおよびローカルストレージ）</h3>
+      <p>本サービスは、AIアドバイスのキャッシュ・オンボーディング表示管理等の目的で、ブラウザのローカルストレージを使用します。広告目的のトラッキングCookieは使用しません。</p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第8条（ポリシーの変更）</h3>
+      <p>本ポリシーを変更する場合は、本ページに掲載の上、公式X（@sodary_app）にてお知らせします。重要な変更がある場合は、アプリ内でも通知します。</p>
+
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第9条（お問い合わせ）</h3>
+      <p>プライバシーに関するお問い合わせは、下記までお願いします。<br>
+      <a href="mailto:sodary.app@ymail.ne.jp" style="color:#4a6741;">sodary.app@ymail.ne.jp</a></p>
+
+    </div>
+
+    <button onclick="document.getElementById('privacyModal').style.display='none'"
+      style="width:100%;margin-top:32px;background:#4a6741;color:white;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;">
+      閉じる
+    </button>
+  </div>
+</div>
 
 <!-- ===== 利用規約モーダル ===== -->
 <div id="tosModal" style="display:none;position:fixed;inset:0;background:rgba(42,31,23,0.6);z-index:500;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);" onclick="if(event.target===this)this.style.display='none'">
