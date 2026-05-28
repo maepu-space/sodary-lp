@@ -61,7 +61,7 @@
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Yomogi&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --soil: #3d2b1f;
@@ -83,7 +83,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Yomogi', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     background: var(--cream);
     color: var(--ink);
     overflow-x: hidden;
@@ -154,7 +154,7 @@
     text-decoration: none;
     display: inline-block;
     transition: background 0.2s, transform 0.15s;
-    font-family: 'Yomogi', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     letter-spacing: 0.03em;
   }
 
@@ -175,7 +175,7 @@
     text-decoration: none;
     display: inline-block;
     transition: all 0.2s;
-    font-family: 'Yomogi', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
   }
 
   .btn-outline:hover {
@@ -774,16 +774,35 @@
     <div style="position:relative; display:inline-block;">
       <div class="phone-mockup">
         <div class="phone-screen">
+          <!-- ヘッダー：そだリー実際のUI -->
           <div class="phone-header">
-            <div class="phone-header-title">🌱 そだリー</div>
-            <div class="phone-header-sub">今日も元気に育ってます</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div class="phone-header-title">🌱 そだリー</div>
+                <div class="phone-header-sub" style="font-size:8px;opacity:.5;margin-top:1px;">v1.0.0</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:10px;opacity:.8;">5月28日（木）</div>
+                <div style="font-size:9px;opacity:.7;margin-top:1px;">☀️ 🌡24°/17° ☔20%</div>
+              </div>
+            </div>
           </div>
           <div class="phone-body">
+            <!-- AIアドバイス -->
+            <div style="background:white;border-radius:12px;padding:10px 11px;font-size:9.5px;color:#6b4226;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:10px;display:flex;gap:8px;align-items:flex-start;">
+              <span style="font-size:18px;">🤖</span>
+              <div>
+                <div style="font-weight:700;margin-bottom:3px;font-size:9px;color:#4a6741;">今日のAIアドバイス</div>
+                <div style="color:#8a7b6e;line-height:1.5;font-size:9px;">トマトのわき芽を取り除いて一本仕立てにしましょう。梅雨前に風通しを確保することが大切です。</div>
+              </div>
+            </div>
+            <!-- 植物カード -->
+            <div style="font-size:9px;font-weight:700;color:#6b4226;margin-bottom:6px;">🌿 育てている植物</div>
             <div class="veg-card">
               <span class="veg-emoji">🍅</span>
               <div class="veg-info">
                 <div class="veg-name">ミニトマト</div>
-                <div class="veg-status">植え付けから 47日目</div>
+                <div class="veg-status">🪴 プランター ・ 47日目</div>
               </div>
               <div class="veg-badge water-needed">💧 水やり</div>
             </div>
@@ -791,7 +810,7 @@
               <span class="veg-emoji">🫑</span>
               <div class="veg-info">
                 <div class="veg-name">ピーマン</div>
-                <div class="veg-status">植え付けから 32日目</div>
+                <div class="veg-status">🏢 ベランダ ・ 32日目</div>
               </div>
               <div class="veg-badge">✅ 良好</div>
             </div>
@@ -799,25 +818,22 @@
               <span class="veg-emoji">🌹</span>
               <div class="veg-info">
                 <div class="veg-name">バラ（ピンク）</div>
-                <div class="veg-status">植え付けから 89日目</div>
+                <div class="veg-status">🌳 露地（庭） ・ 89日目</div>
               </div>
               <div class="veg-badge">🌸 開花中</div>
             </div>
-            <div style="background:white;border-radius:12px;padding:10px;font-size:10px;color:#6b4226;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-              <div style="font-weight:700;margin-bottom:4px;">☀️ 今日のAIアドバイス</div>
-              <div style="color:#8a7b6e;line-height:1.5;">ミニトマトの第1花房が開花しています。わき芽を取り除いて一本仕立てにしましょう。</div>
-            </div>
           </div>
+          <!-- ナビバー：現在のアプリと同じ構成 -->
           <div class="phone-tab">
             <div class="tab-item active"><span class="tab-icon">🏠</span>ホーム</div>
-            <div class="tab-item"><span class="tab-icon">📷</span>記録</div>
-            <div class="tab-item"><span class="tab-icon">📅</span>カレンダー</div>
+            <div class="tab-item"><span class="tab-icon">📷</span>日記</div>
             <div class="tab-item"><span class="tab-icon">🤖</span>AI相談</div>
+            <div class="tab-item"><span class="tab-icon">👤</span>設定</div>
           </div>
         </div>
       </div>
       <div class="float-badge float-badge-1">🤖 AI病害虫診断</div>
-      <div class="float-badge float-badge-2">📊 センサー連携</div>
+      <div class="float-badge float-badge-2">📷 写真で記録</div>
     </div>
   </div>
 </section>
