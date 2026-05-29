@@ -683,6 +683,51 @@
   .footer-copy { font-size: 12px; width: 100%; text-align: center; margin-top: 24px; opacity: 0.4; }
 
   /* ======= SOCIAL SECTION ======= */
+  /* ===== STORY ===== */
+  .story { background: var(--soil); color: var(--cream); }
+  .story .section-label { color: var(--sprout); }
+  .story .section-title { color: #fff; }
+  .story .section-sub { color: #c8b8a8; }
+  .story-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+
+  .story-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 56px;
+    text-align: left;
+  }
+  .story-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 20px;
+    padding: 32px 28px;
+  }
+  .story-icon { font-size: 36px; margin-bottom: 18px; line-height: 1; }
+  .story-card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px; font-weight: 800;
+    color: #fff; margin-bottom: 14px; line-height: 1.5;
+  }
+  .story-card-body { font-size: 14px; line-height: 1.9; color: #c8b8a8; }
+
+  .story-quote {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--sprout); line-height: 1.8;
+    border: none; margin: 0 auto;
+    padding: 40px 48px;
+    background: rgba(168,201,127,0.10);
+    border-radius: 20px; max-width: 640px; text-align: center;
+  }
+  .sp-br { display: none; }
+
+  @media (max-width: 768px) {
+    .story-cards { grid-template-columns: 1fr; }
+    .story-quote { font-size: 17px; padding: 28px 24px; }
+    .sp-br { display: inline; }
+  }
+
   .social { background: var(--fog); text-align: center; }
 
   .social-btn {
@@ -746,6 +791,7 @@
   <nav>
     <a href="#features">機能</a>
     <a href="#education">教育向け</a>
+    <a href="#story">想い</a>
     <a href="#social">最新情報</a>
     <a href="https://x.com/sodary_app" target="_blank" class="btn-primary">𝕏 フォローする</a>
   </nav>
@@ -1115,6 +1161,45 @@
         <span class="tag">探究学習</span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- STORY SECTION -->
+<section class="section story" id="story">
+  <div class="story-inner">
+
+    <span class="section-label reveal">そだリーが生まれた理由</span>
+    <h2 class="section-title reveal" style="margin-bottom:8px;">育てながら、<br>人もそだっていく。</h2>
+    <p class="section-sub reveal" style="margin-bottom:56px;">家庭菜園を始めた父親が、子どもの青虫観察から気づいたこと。</p>
+
+    <!-- 本文カード -->
+    <div class="story-cards">
+
+      <div class="story-card reveal">
+        <div class="story-icon">🌱</div>
+        <h3 class="story-card-title">始めてみたら、<br>想像以上に難しかった</h3>
+        <p class="story-card-body">植えて水をやるだけでは、うまくいかなかった。病害虫の対処、追肥のタイミング、連作障害、摘芯、支柱の組み方——やることも、考えることも、想像以上に多い。<br><br>「家庭菜園って、ハードルが高い」。始めてみて、はじめてそう感じた。</p>
+      </div>
+
+      <div class="story-card reveal" data-reveal-delay="100">
+        <div class="story-icon">🐛</div>
+        <h3 class="story-card-title">野菜より虫が好きな<br>子どもと、一緒に</h3>
+        <p class="story-card-body">子どもと一緒に育てたくて、続けた。うまく作れなくていい——虫食いになった葉を見て「なんの虫だろう」と調べたり、青虫の成長を毎日観察したり。畑は、見て触れて学ぶ場所になった。<br><br>ところが、見て感じて、そのまま流れていく。記録しないと、消えてしまう。</p>
+      </div>
+
+      <div class="story-card reveal" data-reveal-delay="200">
+        <div class="story-icon">📝</div>
+        <h3 class="story-card-title">点が集まって、<br>線になっていく</h3>
+        <p class="story-card-body">毎日の観察を記録し始めたら、変わった。青虫がさなぎになる日が予測できた。去年の失敗の原因が見えてきた。子どもと感じ方が違うことに気づいた。<br><br>記録は「点」だけど、積み重なると「線」になる。そだリーは、その体験を作るアプリです。</p>
+      </div>
+
+    </div>
+
+    <!-- 引用 -->
+    <blockquote class="story-quote reveal">
+      「失敗したくはないけど、失敗から学んで、<br class="sp-br">人として育つことをサポートしたい。」
+    </blockquote>
+
   </div>
 </section>
 
