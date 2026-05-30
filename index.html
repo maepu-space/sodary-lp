@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<script>document.documentElement.className += ' js';</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>そだリー — 育てる観察日記</title>
 
 <!-- ===== SEO ===== -->
-<meta name="description" content="プランター・ベランダ・小さな畑をやっている方向けの家庭菜園観察日記アプリ。写真で記録、AIが病害虫を診断、天気連携で今日すべきことを提案。野菜も草花も対応。">
-<meta name="keywords" content="家庭菜園,観察日記,野菜,草花,プランター,栽培記録,AI診断,病害虫,そだリー">
+<meta name="description" content="記録をシェアする観察日記アプリ。観葉植物・家庭菜園・生き物の「育てる」を絵日記感覚で記録。あなたの記録を読んで答えるAI相談、写真で病害虫診断、天気連携で今日すべきことを提案。">
+<meta name="keywords" content="観察日記,家庭菜園,観葉植物,生き物,栽培記録,シェア,タイムライン,AI相談,病害虫診断,そだリー">
 <link rel="canonical" href="https://maepu-space.github.io/sodary-lp/">
 
 <!-- ===== CSP（Content Security Policy） ===== -->
@@ -16,7 +17,7 @@
 <!-- ===== OGP（SNSシェア用） ===== -->
 <meta property="og:type"        content="website">
 <meta property="og:title"       content="そだリー — 育てる観察日記">
-<meta property="og:description" content="プランター・ベランダ・小さな畑向けの家庭菜園観察日記アプリ。AIが病害虫を診断、天気連携で今日すべきことを提案。">
+<meta property="og:description" content="記録をシェアする観察日記アプリ。観葉植物・家庭菜園・生き物の「育てる」を絵日記感覚で。あなたの記録を読んで答えるAI相談、天気連携で今日すべきことを提案。">
 <meta property="og:url"         content="https://maepu-space.github.io/sodary-lp/">
 <meta property="og:image"       content="https://maepu-space.github.io/sodary-lp/ogp.png">
 <meta property="og:image:width"  content="1200">
@@ -28,7 +29,7 @@
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:site"        content="@sodary_app">
 <meta name="twitter:title"       content="そだリー — 育てる観察日記">
-<meta name="twitter:description" content="プランター・ベランダ・小さな畑向けの家庭菜園観察日記アプリ。AIが病害虫を診断。">
+<meta name="twitter:description" content="記録をシェアする観察日記アプリ。あなたの記録を読んで答えるAI相談が使えます。">
 <meta name="twitter:image"       content="https://maepu-space.github.io/sodary-lp/ogp.png">
 
 <!-- ===== Google Analytics ===== -->
@@ -50,7 +51,7 @@
   "@type": "WebApplication",
   "name": "そだリー",
   "url": "https://maepu-space.github.io/sodary-lp/",
-  "description": "プランター・ベランダ・小さな畑向けの家庭菜園観察日記アプリ。AIが病害虫を診断、天気連携で今日すべきことを提案。",
+  "description": "記録をシェアする観察日記アプリ。観葉植物・家庭菜園・生き物の「育てる」を絵日記感覚で記録。あなたの記録を読んで答えるAI相談、天気連携で今日すべきことを提案。",
   "applicationCategory": "LifestyleApplication",
   "operatingSystem": "Web, iOS, Android",
   "author": {
@@ -79,6 +80,17 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* baseline-ui: キーボード操作時に必ず見えるフォーカスリング。
+     マウスクリック時は出さず（:focus-visible）、Tab移動時のみ表示 */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--moss);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 
   html { scroll-behavior: smooth; }
 
@@ -493,6 +505,19 @@
     margin-bottom: 8px;
   }
 
+  .soon-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--bark);
+    background: var(--petal);
+    border-radius: 8px;
+    padding: 2px 8px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.02em;
+  }
+
   .target-sub {
     font-size: 13px;
     color: var(--mist);
@@ -765,6 +790,29 @@
     transform: translateY(0);
   }
 
+  /* JSが無効／IntersectionObserver未発火でもコンテンツが消えないように。
+     <html class="js"> が付いたときだけ初期非表示にする（プログレッシブエンハンスメント） */
+  html:not(.js) .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* baseline-ui: モーション設定を尊重。アニメーションは無効化しつつ必ず表示 */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   /* ======= RESPONSIVE ======= */
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; padding: 100px 28px 60px; text-align: center; }
@@ -800,15 +848,15 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left reveal">
-    <div class="hero-tag">🌿 家庭菜園の観察日記アプリ</div>
+    <div class="hero-tag">🌿 記録をシェアする観察日記アプリ</div>
     <h1 class="hero-title">
       育てる毎日を、<br>
-      <em>記録</em>しよう。
+      <em>記録</em>してシェア。
     </h1>
     <p class="hero-sub">
-      プランター・ベランダ・小さな畑—<br>
-      あなたの大切な植物たちの成長を、<br>
-      写真と観察日記でやさしく残していこう。
+      観葉植物も、家庭菜園も、生き物の成長も—<br>
+      あなたの「育てる」を絵日記感覚で残そう。<br>
+      家族や友人とのシェア機能も準備中です。
     </p>
     <div class="hero-cta">
       <a href="#features" class="btn-outline">機能を見る</a>
@@ -878,7 +926,7 @@
           </div>
         </div>
       </div>
-      <div class="float-badge float-badge-1">🤖 AI病害虫診断</div>
+      <div class="float-badge float-badge-1">🤖 記録を読むAI相談</div>
       <div class="float-badge float-badge-2">📷 写真で記録</div>
     </div>
   </div>
@@ -887,29 +935,68 @@
 <!-- TARGETS -->
 <section class="section targets" id="targets">
   <div class="reveal">
-    <span class="section-label">こんな方に</span>
-    <h2 class="section-title">あなたの畑スタイルに<br>ぴったり合う記録帳</h2>
-    <p class="section-sub">ベランダのプランターから、庭の小さな畑まで。育てるものも、場所も、あなただけのスタイルを応援します。</p>
+    <span class="section-label">そだリーって？</span>
+    <h2 class="section-title">記録をシェアする<br>観察日記アプリ</h2>
+    <p class="section-sub">観葉植物も、家庭菜園も、生き物の成長も。あなたの「育てる」を絵日記感覚で記録します。さらに、同じものを育てている人や、家族・友人の観察日記をタイムラインでシェアできます。</p>
   </div>
 
   <div class="targets-grid">
     <div class="target-card reveal">
-      <span class="target-emoji">🪴</span>
-      <div class="target-title">ベランダ・プランター族</div>
-      <div class="target-sub">マンションや都市部でプランターを楽しむ方。限られたスペースでも、野菜も花もバランスよく育てたい。</div>
+      <span class="target-emoji">📔</span>
+      <div class="target-title">絵日記感覚で記録</div>
+      <div class="target-sub">写真を撮って、ひとこと添えるだけ。野菜・草花・観葉植物・虫や生き物まで、育てているものを気軽に残せます。</div>
     </div>
 
     <div class="target-card reveal">
-      <span class="target-emoji">🏡</span>
-      <div class="target-title">庭付き一戸建て族</div>
-      <div class="target-sub">庭の一角を菜園に。定年後の趣味として本格的に取り組みたい方にも、記録で成長が見えてくる。</div>
+      <span class="target-emoji">👨‍👩‍👧</span>
+      <div class="target-title">家族や友人とシェア<span class="soon-badge">準備中</span></div>
+      <div class="target-sub">子どもと一緒の観察も、離れた家族とも。同じものを見ても感じ方は違うから、シェアすると発見が増えます。</div>
     </div>
 
     <div class="target-card reveal">
-      <span class="target-emoji">💡</span>
-      <div class="target-title">室内・水耕栽培族</div>
-      <div class="target-sub">室内・水耕栽培で植物を育てたい方に。センサーキットで温湿度・照度を自動記録。データで育てる楽しさを。</div>
+      <span class="target-emoji">🌍</span>
+      <div class="target-title">同じものを育てる仲間と<span class="soon-badge">準備中</span></div>
+      <div class="target-sub">同じ植物・生き物を育てている人の日記をタイムラインで。「うちはこうだった」が、次の一歩のヒントになります。</div>
     </div>
+  </div>
+</section>
+
+<!-- STORY SECTION -->
+<section class="section story" id="story">
+  <div class="story-inner">
+
+    <span class="section-label reveal">そだリーが生まれた理由</span>
+    <h2 class="section-title reveal" style="margin-bottom:8px;">育てながら、<br>人もそだっていく。</h2>
+    <p class="section-sub reveal" style="margin-bottom:56px;">家庭菜園を始めた父親が、子どもの青虫観察から気づいたこと。</p>
+
+    <!-- 本文カード -->
+    <div class="story-cards">
+
+      <div class="story-card reveal">
+        <div class="story-icon">🌱</div>
+        <h3 class="story-card-title">始めてみたら、<br>想像以上に難しかった</h3>
+        <p class="story-card-body">植えて水をやるだけでは、うまくいかなかった。病害虫の対処、追肥のタイミング、連作障害、摘芯、支柱の組み方——やることも、考えることも、想像以上に多い。<br><br>「家庭菜園って、ハードルが高い」。始めてみて、はじめてそう感じた。</p>
+      </div>
+
+      <div class="story-card reveal" data-reveal-delay="100">
+        <div class="story-icon">🐛</div>
+        <h3 class="story-card-title">野菜より虫が好きな<br>子どもと、一緒に</h3>
+        <p class="story-card-body">子どもと一緒に育てたくて、続けた。うまく作れなくていい——虫食いになった葉を見て「なんの虫だろう」と調べたり、青虫の成長を毎日観察したり。畑は、見て触れて学ぶ場所になった。<br><br>ところが、見て感じて、そのまま流れていく。記録しないと、消えてしまう。</p>
+      </div>
+
+      <div class="story-card reveal" data-reveal-delay="200">
+        <div class="story-icon">📝</div>
+        <h3 class="story-card-title">点が集まって、<br>線になっていく</h3>
+        <p class="story-card-body">毎日の観察を記録し始めたら、変わった。青虫がさなぎになる日が予測できた。去年の失敗の原因が見えてきた。子どもと感じ方が違うことに気づいた。<br><br>記録は「点」だけど、積み重なると「線」になる。そだリーは、その体験を作るアプリです。</p>
+      </div>
+
+    </div>
+
+    <!-- 引用 -->
+    <blockquote class="story-quote reveal">
+      「失敗したくはないけど、失敗から学んで、<br class="sp-br">人として育つことをサポートしたい。」
+    </blockquote>
+
   </div>
 </section>
 
@@ -950,14 +1037,14 @@
       </div>
     </div>
     <div class="reveal">
-      <span class="feature-label">AI診断</span>
-      <h3 class="feature-title">写真1枚で<br>病害虫を即診断</h3>
-      <p class="feature-desc">葉っぱの様子がおかしい…？スマホで写真を撮るだけ。AIが病害虫を診断して、具体的な対処法を提案します。競合サービスにはない機能です。</p>
+      <span class="feature-label">AI相談</span>
+      <h3 class="feature-title">あなたの記録を読んで<br>答えるAI相談</h3>
+      <p class="feature-desc">一般論で終わらない。これまで記録した観察日記をAIが読み込んで、あなたの植物の状況に合わせた相談ができます。写真を添えれば、病害虫の診断もその場で。</p>
       <ul class="feature-list">
-        <li>病害虫を写真1枚で即診断</li>
+        <li>過去の記録をふまえた、あなた専用のアドバイス</li>
+        <li>写真を撮るだけで病害虫を診断</li>
         <li>野菜名を入れるだけでAIが育て方を自動設定</li>
-        <li>わき芽かき・摘芯・施肥のタイミングを自動提案</li>
-        <li>雨の日は水やりスキップを自動案内</li>
+        <li>わき芽かき・摘芯・施肥のタイミングを提案</li>
       </ul>
     </div>
   </div>
@@ -1161,45 +1248,6 @@
         <span class="tag">探究学習</span>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- STORY SECTION -->
-<section class="section story" id="story">
-  <div class="story-inner">
-
-    <span class="section-label reveal">そだリーが生まれた理由</span>
-    <h2 class="section-title reveal" style="margin-bottom:8px;">育てながら、<br>人もそだっていく。</h2>
-    <p class="section-sub reveal" style="margin-bottom:56px;">家庭菜園を始めた父親が、子どもの青虫観察から気づいたこと。</p>
-
-    <!-- 本文カード -->
-    <div class="story-cards">
-
-      <div class="story-card reveal">
-        <div class="story-icon">🌱</div>
-        <h3 class="story-card-title">始めてみたら、<br>想像以上に難しかった</h3>
-        <p class="story-card-body">植えて水をやるだけでは、うまくいかなかった。病害虫の対処、追肥のタイミング、連作障害、摘芯、支柱の組み方——やることも、考えることも、想像以上に多い。<br><br>「家庭菜園って、ハードルが高い」。始めてみて、はじめてそう感じた。</p>
-      </div>
-
-      <div class="story-card reveal" data-reveal-delay="100">
-        <div class="story-icon">🐛</div>
-        <h3 class="story-card-title">野菜より虫が好きな<br>子どもと、一緒に</h3>
-        <p class="story-card-body">子どもと一緒に育てたくて、続けた。うまく作れなくていい——虫食いになった葉を見て「なんの虫だろう」と調べたり、青虫の成長を毎日観察したり。畑は、見て触れて学ぶ場所になった。<br><br>ところが、見て感じて、そのまま流れていく。記録しないと、消えてしまう。</p>
-      </div>
-
-      <div class="story-card reveal" data-reveal-delay="200">
-        <div class="story-icon">📝</div>
-        <h3 class="story-card-title">点が集まって、<br>線になっていく</h3>
-        <p class="story-card-body">毎日の観察を記録し始めたら、変わった。青虫がさなぎになる日が予測できた。去年の失敗の原因が見えてきた。子どもと感じ方が違うことに気づいた。<br><br>記録は「点」だけど、積み重なると「線」になる。そだリーは、その体験を作るアプリです。</p>
-      </div>
-
-    </div>
-
-    <!-- 引用 -->
-    <blockquote class="story-quote reveal">
-      「失敗したくはないけど、失敗から学んで、<br class="sp-br">人として育つことをサポートしたい。」
-    </blockquote>
-
   </div>
 </section>
 
