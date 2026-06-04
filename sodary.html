@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>そだリー｜育てながら、人もそだっていく</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+  :root{
+    --ink:#221c14;--moss:#234d16;--leaf:#4e7d39;--sprout:#8FB86A;
+    --sky:#e9f1dd;--paper:#F7F3EA;--cream:#fffdf8;--mist:#857562;--clay:#bf6b3a;--gold:#d9a23c;--line:#ddd0bd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:var(--ink);line-height:1.9;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px;}
+  .serif{font-family:'Zen Old Mincho',serif;}
+
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+    padding:14px 28px;background:rgba(247,243,234,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .topbar .back{font-size:13px;color:var(--moss);text-decoration:none;font-weight:700;}
+  .topbar .brand{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:18px;color:var(--moss);}
+
+  .hero{padding:140px 0 70px;background:radial-gradient(ellipse at 30% 0%,#d4e6bc 0%,transparent 60%),var(--paper);text-align:center;}
+  .hero .leaf{font-size:54px;}
+  .hero h1{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(30px,5vw,48px);color:var(--ink);margin:14px 0;}
+  .hero .tagline{font-size:18px;color:var(--moss);font-family:'Zen Old Mincho',serif;font-weight:700;margin-bottom:18px;}
+  .hero p{font-size:15px;color:var(--soil);max-width:600px;margin:0 auto;}
+  .hero .poc{display:inline-block;margin-top:20px;background:var(--sky);color:var(--moss);border-radius:30px;padding:6px 18px;font-size:13px;font-weight:700;}
+
+  section{padding:70px 0;}
+  .kicker{font-size:12px;letter-spacing:0.25em;color:var(--clay);font-weight:700;margin-bottom:12px;}
+  h2.sec{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(24px,3.5vw,32px);color:var(--ink);margin-bottom:16px;}
+  .sec-lead{font-size:15.5px;color:var(--soil);max-width:680px;margin-bottom:38px;}
+
+  /* 原点ストーリー */
+  .origin{background:var(--ink);color:#e8dccb;}
+  .origin .kicker{color:var(--gold);}
+  .origin h2.sec{color:#fff;}
+  .origin blockquote{font-family:'Zen Old Mincho',serif;font-size:clamp(20px,3vw,28px);line-height:1.7;color:#fff;border-left:4px solid var(--gold);padding-left:24px;margin:24px 0;}
+  .origin p{color:#cbbca6;font-size:15px;max-width:680px;}
+
+  /* 機能グリッド */
+  .feats{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .fcard{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:26px;border-top:4px solid var(--leaf);}
+  .fcard .ic{font-size:34px;}
+  .fcard h3{font-size:18px;color:var(--moss);margin:8px 0;}
+  .fcard p{font-size:14px;color:var(--soil);}
+  @media(max-width:720px){.feats{grid-template-columns:1fr;}}
+
+  /* 特徴ハイライト */
+  .highlight{background:var(--sky);}
+  .hl-row{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;}
+  .hl-visual{background:var(--cream);border-radius:20px;padding:24px;box-shadow:0 10px 28px rgba(42,31,23,0.07);}
+  .hl-visual .chat{background:var(--paper);border-radius:12px;padding:14px;font-size:13px;}
+  .hl-visual .chat .u{text-align:right;color:var(--soil);margin-bottom:8px;}
+  .hl-visual .chat .u span{background:var(--sprout);color:#fff;border-radius:14px 14px 2px 14px;padding:7px 12px;display:inline-block;max-width:80%;}
+  .hl-visual .chat .a span{background:#fff;border:1px solid var(--line);border-radius:14px 14px 14px 2px;padding:7px 12px;display:inline-block;max-width:85%;}
+  .hl-text h3{font-family:'Zen Old Mincho',serif;font-size:22px;margin-bottom:10px;}
+  .hl-text p{font-size:14.5px;color:var(--soil);}
+  @media(max-width:720px){.hl-row{grid-template-columns:1fr;}}
+
+  /* 位置づけ */
+  .role{text-align:center;}
+  .role .box{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:34px;max-width:760px;margin:0 auto;}
+  .role .box .ic{font-size:40px;}
+  .role .box p{font-size:15px;color:var(--soil);margin-top:12px;}
+  .role .box .arch{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:22px;}
+  .role .box .arch .layer{background:var(--sky);border-radius:12px;padding:10px 18px;font-size:13px;font-weight:700;color:var(--moss);}
+
+  .cta{text-align:center;background:linear-gradient(135deg,#234d16,#4e7d39);color:#fff;}
+  .cta h2{font-family:'Zen Old Mincho',serif;font-size:30px;margin-bottom:24px;}
+  .btn{display:inline-block;padding:14px 30px;border-radius:34px;font-weight:700;text-decoration:none;font-size:15px;}
+  .btn-gold{background:var(--gold);color:var(--ink);}
+
+  footer{background:#181309;color:#9c8c76;text-align:center;padding:30px;font-size:12px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="back">← サステナグリーン</a>
+  <div class="brand">そだリー</div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="leaf">🌿</div>
+    <div class="tagline serif">育てながら、人もそだっていく。</div>
+    <h1 class="serif">観察記録アプリ「そだリー」</h1>
+    <p>家庭菜園のはじめの一歩を支える、撮って・書いて・続けられる観察日記。AIがあなたの記録を読んで相談に乗ります。</p>
+    <div class="poc">サステナグリーン構想のPoC（実証中）</div>
+  </div>
+</header>
+
+<!-- 原点 -->
+<section class="origin">
+  <div class="wrap">
+    <div class="kicker">ORIGIN</div>
+    <h2 class="sec">「子どもと一緒に育てたい」から始まった</h2>
+    <blockquote class="serif">植えて水をやるだけでは、うまくいかなかった。<br>それでも、子どもと一緒に育てたかった。</blockquote>
+    <p>家庭菜園を始めると、病害虫・連作・肥料・支柱…やることは想像以上に多い。それでも、虫食いの葉を見て理由を調べ、青虫の成長を毎日観察する——畑は「見て・触れて・学ぶ」場所になる。その毎日の観察を記録に残し、振り返れる場所が欲しかった。それがそだリーの出発点です。</p>
+  </div>
+</section>
+
+<!-- 機能 -->
+<section>
+  <div class="wrap">
+    <div class="kicker">FEATURES</div>
+    <h2 class="sec">できること</h2>
+    <p class="sec-lead">記録を中心に、AI相談・生育管理・収支・コミュニティまで。家庭菜園のつまずきどころを、ひとつずつ支えます。</p>
+    <div class="feats">
+      <div class="fcard"><div class="ic">📓</div><h3>観察記録</h3><p>植物ごとに写真付きで記録。育成中／完了（収穫・枯れ等）を管理し、振り返れる。</p></div>
+      <div class="fcard"><div class="ic">🤖</div><h3>AI相談・写真診断</h3><p>一般論でなく「あなたの過去の記録」を読み込んで相談に応答。写真で病害虫を診断。</p></div>
+      <div class="fcard"><div class="ic">🌡️</div><h3>生育ステージ表示</h3><p>気温データと積算温度から、発芽期〜収穫期を自動判定。日数より正確な生育の目安。</p></div>
+      <div class="fcard"><div class="ic">🌱</div><h3>連作・コンパニオン</h3><p>同じ場所の連作障害を警告。相性の良い／避けたい植物を提案。</p></div>
+      <div class="fcard"><div class="ic">💰</div><h3>収支管理</h3><p>苗・資材の支出を記録。収穫物を撮ると、AIが品目・サイズ・個数から売上を概算。</p></div>
+      <div class="fcard"><div class="ic">🌾</div><h3>農園コミュニティ</h3><p>同じ農園コードの人だけのローカルな場で、収穫の見せ合い・質問・苗のゆずり合い。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ハイライト：記録読み込みAI -->
+<section class="highlight">
+  <div class="wrap">
+    <div class="kicker">WHAT MAKES IT DIFFERENT</div>
+    <h2 class="sec">「あなたの畑」を知っているAI</h2>
+    <div class="hl-row">
+      <div class="hl-visual">
+        <div class="chat">
+          <div class="u"><span>うちのミニトマト、葉が黄色くなってきた…</span></div>
+          <div class="a"><span>3日前の記録だと水やりが続いていますね。下葉の黄変＋過湿気味なら、まず水やりを控えて様子を見ましょう。🍅</span></div>
+        </div>
+      </div>
+      <div class="hl-text">
+        <h3 class="serif">記録が、AIの判断材料になる</h3>
+        <p>一般的な園芸情報を返すだけのAIではありません。そだリーのAIは、その植物の過去の観察記録を読み込んだうえで答えます。だから「あなたの育て方」に即したアドバイスができる——これは記録が貯まるそだリーだからこそ実現できる価値です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 構想内での位置づけ -->
+<section class="role">
+  <div class="wrap">
+    <div class="kicker">ROLE IN THE VISION</div>
+    <h2 class="sec">構想の「入口」であり「実証」</h2>
+    <div class="box">
+      <div class="ic">🌱→🌾</div>
+      <p>そだリーは、サステナグリーン構想全体の<b>PoC（実証）</b>です。検証しているのは「アプリとして流行るか」ではなく、<b>育てる人のデータが継続的に集まる仕組みになるか</b>。アプリは将来差し替え可能な「窓」と位置づけ、データの所有はプラットフォームに残す設計です。</p>
+      <div class="arch">
+        <span class="layer">アプリ層（窓・差し替え可）</span>
+        <span class="layer" style="background:var(--moss);color:#fff;">データ基盤（不動の中核）</span>
+        <span class="layer">活用層（AI・データ・橋渡し）</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2 class="serif">構想の全体像も、ぜひ。</h2>
+    <a href="index.html" class="btn btn-gold">← サステナグリーンの構想を見る</a>
+  </div>
+</section>
+
+<footer>
+  そだリー ／ サステナグリーン構想のPoC ・ 本ページは構想段階の内容です
+</footer>
+
+</body>
+</html>

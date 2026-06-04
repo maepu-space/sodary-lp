@@ -1,1443 +1,344 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<script>document.documentElement.className += ' js';</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>そだリー — 育てる観察日記</title>
-
-<!-- ===== SEO ===== -->
-<meta name="description" content="記録をシェアする観察日記アプリ。観葉植物・家庭菜園・生き物の「育てる」を絵日記感覚で記録。あなたの記録を読んで答えるAI相談、写真で病害虫診断、天気連携で今日すべきことを提案。">
-<meta name="keywords" content="観察日記,家庭菜園,観葉植物,生き物,栽培記録,シェア,タイムライン,AI相談,病害虫診断,そだリー">
-<link rel="canonical" href="https://maepu-space.github.io/sodary-lp/">
-
-<!-- ===== CSP（Content Security Policy） ===== -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://platform.twitter.com https://www.googletagmanager.com; frame-src 'self' https://x.com https://twitter.com https://platform.twitter.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
-
-<!-- ===== OGP（SNSシェア用） ===== -->
-<meta property="og:type"        content="website">
-<meta property="og:title"       content="そだリー — 育てる観察日記">
-<meta property="og:description" content="記録をシェアする観察日記アプリ。観葉植物・家庭菜園・生き物の「育てる」を絵日記感覚で。あなたの記録を読んで答えるAI相談、天気連携で今日すべきことを提案。">
-<meta property="og:url"         content="https://maepu-space.github.io/sodary-lp/">
-<meta property="og:image"       content="https://maepu-space.github.io/sodary-lp/ogp.png">
-<meta property="og:image:width"  content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:site_name"   content="そだリー">
-<meta property="og:locale"      content="ja_JP">
-
-<!-- ===== Twitter Card ===== -->
-<meta name="twitter:card"        content="summary_large_image">
-<meta name="twitter:site"        content="@sodary_app">
-<meta name="twitter:title"       content="そだリー — 育てる観察日記">
-<meta name="twitter:description" content="記録をシェアする観察日記アプリ。あなたの記録を読んで答えるAI相談が使えます。">
-<meta name="twitter:image"       content="https://maepu-space.github.io/sodary-lp/ogp.png">
-
-<!-- ===== Google Analytics ===== -->
-<!-- ★ G-XXXXXXXXXX を取得後に置き換えてください -->
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
--->
-
-<!-- ===== 構造化データ（WebApplication） ===== -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "そだリー",
-  "url": "https://maepu-space.github.io/sodary-lp/",
-  "description": "記録をシェアする観察日記アプリ。観葉植物・家庭菜園・生き物の「育てる」を絵日記感覚で記録。あなたの記録を読んで答えるAI相談、天気連携で今日すべきことを提案。",
-  "applicationCategory": "LifestyleApplication",
-  "operatingSystem": "Web, iOS, Android",
-  "author": {
-    "@type": "Organization",
-    "name": "そだリー"
-  }
-}
-</script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<title>サステナグリーン｜育てる人の旅を、まるごと支える</title>
 <style>
-  :root {
-    --soil: #3d2b1f;
-    --bark: #6b4226;
-    --moss: #4a6741;
-    --leaf: #6b8f47;
-    --sprout: #a8c97f;
-    --sun: #e8c84a;
-    --cream: #faf6ee;
-    --petal: #f2e8d9;
-    --sky: #d4e8c2;
-    --fog: #f7f3ec;
-    --ink: #2a1f17;
-    --mist: #8a7b6e;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  /* baseline-ui: キーボード操作時に必ず見えるフォーカスリング。
-     マウスクリック時は出さず（:focus-visible）、Tab移動時のみ表示 */
-  a:focus-visible,
-  button:focus-visible,
-  input:focus-visible,
-  [tabindex]:focus-visible {
-    outline: 3px solid var(--moss);
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
-
-  /* ======= HEADER ======= */
-  header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(250,246,238,0.88);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(107,66,38,0.1);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
-
-  .logo-icon {
-    width: 36px;
-    height: 36px;
-    background: var(--moss);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-
-  .logo-text {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--soil);
-    letter-spacing: 0.05em;
-  }
-
-  nav { display: flex; gap: 28px; align-items: center; }
-
-  nav a {
-    font-size: 14px;
-    color: var(--bark);
-    text-decoration: none;
-    font-weight: 400;
-    letter-spacing: 0.03em;
-    transition: color 0.2s;
-  }
-
-  nav a:hover { color: var(--moss); }
-
-  .btn-primary {
-    background: var(--moss);
-    color: white;
-    border: none;
-    padding: 10px 22px;
-    border-radius: 24px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.2s, transform 0.15s;
-    font-family: 'Noto Sans JP', sans-serif;
-    letter-spacing: 0.03em;
-  }
-
-  .btn-primary:hover {
-    background: var(--soil);
-    transform: translateY(-1px);
-  }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--moss);
-    border: 2px solid var(--moss);
-    padding: 10px 22px;
-    border-radius: 24px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: all 0.2s;
-    font-family: 'Noto Sans JP', sans-serif;
-  }
-
-  .btn-outline:hover {
-    background: var(--moss);
-    color: white;
-  }
-
-  /* ======= HERO ======= */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 100px 64px 60px;
-    gap: 48px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -200px; right: -200px;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(168,201,127,0.25) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -100px; left: -100px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(232,200,74,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-left { z-index: 1; }
-
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--sky);
-    color: var(--moss);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 28px;
-    letter-spacing: 0.05em;
-  }
-
-  .hero-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(36px, 4.5vw, 64px);
-    font-weight: 800;
-    line-height: 1.3;
-    color: var(--soil);
-    margin-bottom: 20px;
-    letter-spacing: 0.02em;
-  }
-
-  .hero-title em {
-    font-style: normal;
-    color: var(--moss);
-    position: relative;
-  }
-
-  .hero-title em::after {
-    content: '';
-    position: absolute;
-    bottom: 2px; left: 0; right: 0;
-    height: 3px;
-    background: var(--sprout);
-    border-radius: 2px;
-  }
-
-  .hero-sub {
-    font-size: 17px;
-    color: var(--mist);
-    line-height: 1.8;
-    margin-bottom: 40px;
-    font-weight: 300;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .hero-note {
-    font-size: 12px;
-    color: var(--mist);
-    margin-top: 16px;
-  }
-
-  /* Hero visual */
-  .hero-right {
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .phone-mockup {
-    width: 280px;
-    height: 560px;
-    background: var(--soil);
-    border-radius: 44px;
-    padding: 16px;
-    box-shadow: 0 40px 100px rgba(61,43,31,0.35), 0 8px 24px rgba(61,43,31,0.2);
-    position: relative;
-    transform: rotate(-4deg);
-    animation: float 4s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: rotate(-4deg) translateY(0); }
-    50% { transform: rotate(-4deg) translateY(-12px); }
-  }
-
-  .phone-screen {
-    width: 100%;
-    height: 100%;
-    background: var(--cream);
-    border-radius: 32px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .phone-header {
-    background: var(--moss);
-    padding: 20px 16px 12px;
-    color: white;
-  }
-
-  .phone-header-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 4px;
-  }
-
-  .phone-header-sub {
-    font-size: 10px;
-    opacity: 0.8;
-  }
-
-  .phone-body { padding: 14px 12px; flex: 1; }
-
-  .veg-card {
-    background: white;
-    border-radius: 14px;
-    padding: 12px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .veg-emoji { font-size: 28px; }
-
-  .veg-info { flex: 1; }
-
-  .veg-name { font-size: 13px; font-weight: 700; color: var(--soil); }
-
-  .veg-status {
-    font-size: 10px;
-    color: var(--mist);
-    margin-top: 2px;
-  }
-
-  .veg-badge {
-    background: var(--sky);
-    color: var(--moss);
-    font-size: 9px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 10px;
-  }
-
-  .water-needed { background: #fff3cd; color: #856404; }
-
-  .phone-tab {
-    display: flex;
-    border-top: 1px solid rgba(0,0,0,0.08);
-    padding: 10px 0 4px;
-  }
-
-  .tab-item {
-    flex: 1;
-    text-align: center;
-    font-size: 8px;
-    color: var(--mist);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-
-  .tab-item.active { color: var(--moss); }
-  .tab-icon { font-size: 16px; }
-
-  /* Floating badge */
-  .float-badge {
-    position: absolute;
-    background: white;
-    border-radius: 16px;
-    padding: 10px 14px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--soil);
-    white-space: nowrap;
-    animation: float2 5s ease-in-out infinite;
-  }
-
-  .float-badge-1 {
-    top: 40px; right: -30px;
-    animation-delay: 0.5s;
-  }
-
-  .float-badge-2 {
-    bottom: 80px; left: -50px;
-    animation-delay: 1.5s;
-  }
-
-  @keyframes float2 {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  .badge-icon { margin-right: 4px; }
-
-  /* ======= TARGETS ======= */
-  .section {
-    padding: 100px 64px;
-  }
-
-  .section-label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--leaf);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    display: block;
-  }
-
-  .section-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(28px, 3.5vw, 48px);
-    font-weight: 800;
-    color: var(--soil);
-    line-height: 1.3;
-    margin-bottom: 16px;
-    letter-spacing: 0.02em;
-  }
-
-  .section-sub {
-    font-size: 16px;
-    color: var(--mist);
-    line-height: 1.8;
-    max-width: 560px;
-    font-weight: 300;
-  }
-
-  /* Targets */
-  .targets { background: var(--fog); }
-
-  .targets-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 56px;
-  }
-
-  .target-card {
-    background: white;
-    border-radius: 24px;
-    padding: 36px 28px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-
-  .target-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 60px rgba(61,43,31,0.12);
-  }
-
-  .target-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: var(--sprout);
-  }
-
-  .target-card:nth-child(2)::before { background: var(--sun); }
-  .target-card:nth-child(3)::before { background: var(--leaf); }
-
-  .target-emoji { font-size: 48px; margin-bottom: 20px; display: block; }
-
-  .target-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--soil);
-    margin-bottom: 8px;
-  }
-
-  .soon-badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--bark);
-    background: var(--petal);
-    border-radius: 8px;
-    padding: 2px 8px;
-    margin-left: 6px;
-    vertical-align: middle;
-    letter-spacing: 0.02em;
-  }
-
-  .target-sub {
-    font-size: 13px;
-    color: var(--mist);
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
-
-  .target-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-  .tag {
-    background: var(--sky);
-    color: var(--moss);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 12px;
-  }
-
-  /* ======= FEATURES ======= */
-  .features-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    margin-top: 80px;
-  }
-
-  .features-grid.reverse { direction: rtl; }
-  .features-grid.reverse > * { direction: ltr; }
-
-  .feature-visual {
-    background: var(--petal);
-    border-radius: 32px;
-    aspect-ratio: 4/3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .feature-visual::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(168,201,127,0.2) 0%, rgba(232,200,74,0.15) 100%);
-  }
-
-  .feature-visual-inner {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-  }
-
-  .feature-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--leaf);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    display: block;
-  }
-
-  .feature-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(22px, 2.5vw, 36px);
-    font-weight: 800;
-    color: var(--soil);
-    line-height: 1.4;
-    margin-bottom: 20px;
-  }
-
-  .feature-desc {
-    font-size: 15px;
-    color: var(--mist);
-    line-height: 1.9;
-    margin-bottom: 28px;
-    font-weight: 300;
-  }
-
-  .feature-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .feature-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 14px;
-    color: var(--ink);
-    font-weight: 400;
-  }
-
-  .feature-list li::before {
-    content: '✓';
-    color: var(--moss);
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  /* divider */
-  .features-divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(107,66,38,0.15), transparent);
-    margin: 0 64px;
-  }
-
-  /* ======= EDUCATION ======= */
-  .education { background: linear-gradient(135deg, #e8f4e0 0%, #f0e8d4 100%); }
-
-  .edu-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 56px;
-  }
-
-  .edu-card {
-    background: white;
-    border-radius: 24px;
-    padding: 32px 24px;
-    text-align: center;
-    transition: transform 0.3s;
-  }
-
-  .edu-card:hover { transform: translateY(-4px); }
-
-  .edu-grade {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--mist);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .edu-icon { font-size: 48px; margin-bottom: 16px; display: block; }
-
-  .edu-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--soil);
-    margin-bottom: 12px;
-  }
-
-  .edu-desc {
-    font-size: 13px;
-    color: var(--mist);
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-
-  .edu-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-
-  /* ======= FOOTER ======= */
-  footer {
-    background: var(--soil);
-    color: rgba(255,255,255,0.6);
-    padding: 48px 64px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-
-  .footer-logo {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
-  .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; transition: color 0.2s; }
-  .footer-links a:hover { color: white; }
-
-  .footer-copy { font-size: 12px; width: 100%; text-align: center; margin-top: 24px; opacity: 0.4; }
-
-  /* ======= SOCIAL SECTION ======= */
-  /* ===== STORY ===== */
-  .story { background: var(--soil); color: var(--cream); }
-  .story .section-label { color: var(--sprout); }
-  .story .section-title { color: #fff; }
-  .story .section-sub { color: #c8b8a8; }
-  .story-inner { max-width: 860px; margin: 0 auto; text-align: center; }
-
-  .story-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 56px;
-    text-align: left;
-  }
-  .story-card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 20px;
-    padding: 32px 28px;
-  }
-  .story-icon { font-size: 36px; margin-bottom: 18px; line-height: 1; }
-  .story-card-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 18px; font-weight: 800;
-    color: #fff; margin-bottom: 14px; line-height: 1.5;
-  }
-  .story-card-body { font-size: 14px; line-height: 1.9; color: #c8b8a8; }
-
-  .story-quote {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 20px; font-weight: 700;
-    color: var(--sprout); line-height: 1.8;
-    border: none; margin: 0 auto;
-    padding: 40px 48px;
-    background: rgba(168,201,127,0.10);
-    border-radius: 20px; max-width: 640px; text-align: center;
-  }
-  .sp-br { display: none; }
-
-  @media (max-width: 768px) {
-    .story-cards { grid-template-columns: 1fr; }
-    .story-quote { font-size: 17px; padding: 28px 24px; }
-    .sp-br { display: inline; }
-  }
-
-  .social { background: var(--fog); text-align: center; }
-
-  .social-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: white;
-    border: 2px solid var(--petal);
-    border-radius: 20px;
-    padding: 14px 28px;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--soil);
-    text-decoration: none;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  }
-
-  .social-btn:hover {
-    border-color: var(--moss);
-    color: var(--moss);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  }
-
-  /* ======= ANIMATIONS ======= */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* JSが無効／IntersectionObserver未発火でもコンテンツが消えないように。
-     <html class="js"> が付いたときだけ初期非表示にする（プログレッシブエンハンスメント） */
-  html:not(.js) .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  /* baseline-ui: モーション設定を尊重。アニメーションは無効化しつつ必ず表示 */
-  @media (prefers-reduced-motion: reduce) {
-    .reveal {
-      opacity: 1 !important;
-      transform: none !important;
-      transition: none !important;
-    }
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
-
-  /* ======= RESPONSIVE ======= */
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; padding: 100px 28px 60px; text-align: center; }
-    .hero-right { display: none; }
-    .targets-grid { grid-template-columns: 1fr; }
-    .features-grid { grid-template-columns: 1fr; gap: 40px; }
-    .features-grid.reverse { direction: ltr; }
-    .edu-grid { grid-template-columns: 1fr; }
-    .section { padding: 64px 28px; }
-    header { padding: 14px 20px; }
-    nav { display: none; }
-    footer { padding: 40px 28px; flex-direction: column; text-align: center; }
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap');
+  :root{
+    --ink:#221c14;--soil:#2A1F17;--moss:#234d16;--leaf:#4e7d39;--sprout:#8FB86A;
+    --sky:#e9f1dd;--paper:#F7F3EA;--cream:#fffdf8;--mist:#857562;--clay:#bf6b3a;--gold:#d9a23c;--line:#ddd0bd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:var(--ink);line-height:1.9;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+  .serif{font-family:'Zen Old Mincho',serif;}
+
+  /* トップバー */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+    padding:14px 28px;background:rgba(247,243,234,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .topbar .brand{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:19px;color:var(--moss);}
+  .topbar .brand span{color:var(--clay);}
+  .topbar nav{display:flex;gap:22px;align-items:center;}
+  .topbar nav a{font-size:13px;color:var(--soil);text-decoration:none;}
+  .topbar nav a:hover{color:var(--moss);}
+  .topbar .cta{background:var(--moss);color:#fff;padding:8px 18px;border-radius:30px;font-size:13px;font-weight:700;}
+  @media(max-width:720px){.topbar nav a:not(.cta){display:none;}}
+
+  /* ヒーロー */
+  .hero{position:relative;padding:160px 0 90px;background:
+    radial-gradient(ellipse at 75% 10%, #cfe3b8 0%, transparent 55%),
+    linear-gradient(180deg,#f7f3ea 0%,#eef933 -200%,#f0ead9 100%);
+    overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--sprout) 0.7px,transparent 0.7px);background-size:22px 22px;opacity:0.12;}
+  .hero .wrap{position:relative;z-index:1;}
+  .hero .tag{display:inline-block;font-size:12px;letter-spacing:0.25em;color:var(--clay);font-weight:700;border:1px solid var(--clay);border-radius:30px;padding:5px 16px;margin-bottom:26px;opacity:0;animation:rise .7s .1s forwards;}
+  .hero h1{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(34px,6vw,62px);line-height:1.35;color:var(--ink);margin-bottom:24px;}
+  .hero h1 .em{color:var(--moss);position:relative;}
+  .hero h1 .em::after{content:"";position:absolute;left:0;bottom:6px;width:100%;height:10px;background:var(--gold);opacity:0.35;z-index:-1;}
+  .hero h1 span{display:inline-block;opacity:0;animation:rise .8s forwards;}
+  .hero p.sub{font-size:clamp(15px,2vw,18px);color:var(--soil);max-width:620px;margin-bottom:36px;opacity:0;animation:rise .8s .5s forwards;}
+  .hero .actions{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:rise .8s .65s forwards;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:34px;font-size:15px;font-weight:700;text-decoration:none;transition:transform .15s, box-shadow .2s;}
+  .btn-main{background:var(--moss);color:#fff;box-shadow:0 8px 24px rgba(35,77,22,0.25);}
+  .btn-main:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(35,77,22,0.32);}
+  .btn-ghost{background:transparent;color:var(--moss);border:1.5px solid var(--moss);}
+  .btn-ghost:hover{background:var(--moss);color:#fff;}
+  @keyframes rise{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+  .hero .stage-strip{margin-top:60px;display:flex;gap:0;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:26px;opacity:0;animation:rise .8s .8s forwards;}
+  .hero .stage-strip .st{flex:1;min-width:120px;text-align:center;position:relative;padding:0 6px;}
+  .hero .stage-strip .st:not(:last-child)::after{content:"→";position:absolute;right:-6px;top:24px;color:var(--sprout);font-weight:700;}
+  .hero .stage-strip .st .ic{font-size:26px;}
+  .hero .stage-strip .st .nm{font-size:12.5px;font-weight:700;color:var(--soil);margin-top:4px;}
+  .hero .stage-strip .st .ds{font-size:10.5px;color:var(--mist);}
+
+  /* 共通セクション */
+  section{padding:84px 0;}
+  .kicker{font-size:12px;letter-spacing:0.25em;color:var(--clay);font-weight:700;margin-bottom:14px;}
+  h2.sec{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(26px,4vw,38px);line-height:1.4;color:var(--ink);margin-bottom:18px;}
+  .sec-lead{font-size:16px;color:var(--soil);max-width:680px;margin-bottom:44px;}
+
+  /* 課題 */
+  .problem{background:var(--ink);color:#e8dccb;position:relative;overflow:hidden;}
+  .problem::after{content:"🌱";position:absolute;right:-30px;bottom:-40px;font-size:240px;opacity:0.05;}
+  .problem .kicker{color:var(--gold);}
+  .problem h2.sec{color:#fff;}
+  .problem .sec-lead{color:#cbbca6;}
+  .prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;position:relative;z-index:1;}
+  .prob-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:26px;}
+  .prob-card .n{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);}
+  .prob-card h3{font-size:18px;color:#fff;margin:10px 0 8px;}
+  .prob-card p{font-size:13.5px;color:#bdae97;}
+
+  /* ビジョン */
+  .vision{text-align:center;background:linear-gradient(180deg,#f7f3ea,#eef4e4);}
+  .vision .big{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(26px,4.5vw,44px);line-height:1.6;color:var(--moss);max-width:880px;margin:0 auto;}
+  .vision .big em{font-style:normal;color:var(--clay);}
+  .vision p.note{font-size:15px;color:var(--soil);max-width:600px;margin:28px auto 0;}
+
+  /* 仕組み（測定器＋データ循環） */
+  .feat-row{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;margin-bottom:60px;}
+  .feat-row:nth-child(even) .feat-visual{order:-1;}
+  .feat-visual{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:30px;text-align:center;box-shadow:0 10px 30px rgba(42,31,23,0.06);}
+  .feat-visual .ic{font-size:60px;}
+  .feat-visual .cap{font-size:13px;color:var(--mist);margin-top:10px;}
+  .feat-text h3{font-family:'Zen Old Mincho',serif;font-size:24px;color:var(--ink);margin-bottom:12px;}
+  .feat-text p{font-size:15px;color:var(--soil);margin-bottom:12px;}
+  .feat-text .pills span{display:inline-block;background:var(--sky);color:var(--moss);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;margin:3px 4px 0 0;}
+  @media(max-width:760px){.feat-row{grid-template-columns:1fr;}.feat-row:nth-child(even) .feat-visual{order:0;}.prob-grid{grid-template-columns:1fr;}}
+
+  /* データ循環の3者 */
+  .cycle{background:var(--sky);}
+  .cycle-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+  .cy-card{background:var(--cream);border-radius:18px;padding:26px;text-align:center;border-top:4px solid var(--leaf);}
+  .cy-card .ic{font-size:40px;}
+  .cy-card h4{font-size:17px;color:var(--moss);margin:8px 0;}
+  .cy-card p{font-size:13px;color:var(--soil);}
+  .cy-flow{text-align:center;margin-top:30px;font-size:14px;color:var(--mist);}
+  @media(max-width:760px){.cycle-grid{grid-template-columns:1fr;}}
+
+  /* そだリーサマリー */
+  .sodary{background:linear-gradient(135deg,#234d16,#2f6320 70%,#4e7d39);color:#fff;position:relative;overflow:hidden;}
+  .sodary::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.5) 0.6px,transparent 0.6px);background-size:26px 26px;opacity:0.1;}
+  .sodary .wrap{position:relative;z-index:1;}
+  .sodary .kicker{color:var(--gold);}
+  .sodary h2.sec{color:#fff;}
+  .sodary-box{display:grid;grid-template-columns:1.1fr 1fr;gap:34px;align-items:center;}
+  .sodary-phone{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:24px;padding:28px;}
+  .sodary-phone .scr{background:#fffdf8;border-radius:16px;padding:18px;color:var(--ink);}
+  .sodary-phone .scr .app-h{display:flex;align-items:center;gap:8px;font-family:'Zen Old Mincho',serif;font-weight:700;color:var(--moss);font-size:15px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px;}
+  .sodary-phone .scr .pl{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13px;border-bottom:1px dashed var(--line);}
+  .sodary-phone .scr .pl .e{font-size:22px;}
+  .sodary-phone .scr .pl .stg{margin-left:auto;font-size:10px;background:var(--sky);color:var(--moss);border-radius:10px;padding:2px 8px;font-weight:700;}
+  .sodary-feats{list-style:none;}
+  .sodary-feats li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.15);font-size:14.5px;display:flex;gap:10px;}
+  .sodary-feats li .e{font-size:18px;}
+  .sodary-feats li b{color:var(--gold);}
+  .sodary .role-note{background:rgba(0,0,0,0.18);border-radius:14px;padding:16px 20px;font-size:13px;color:#d6e6c5;margin-top:24px;}
+  @media(max-width:760px){.sodary-box{grid-template-columns:1fr;}}
+
+  /* ロードマップ */
+  .road-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .road-card{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:22px;}
+  .road-card .ph{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--clay);font-weight:700;}
+  .road-card.now{border-color:var(--moss);border-width:2px;box-shadow:0 8px 24px rgba(35,77,22,0.12);}
+  .road-card.now .ph{color:var(--moss);}
+  .road-card h4{font-size:15px;margin:8px 0 6px;}
+  .road-card p{font-size:12.5px;color:var(--mist);}
+  .road-card .badge-now{display:inline-block;background:var(--moss);color:#fff;font-size:10px;border-radius:10px;padding:1px 8px;margin-top:8px;font-weight:700;}
+  @media(max-width:760px){.road-grid{grid-template-columns:1fr 1fr;}}
+
+  /* 誠実さ注記 */
+  .honest{background:#fdf6ec;border:1px solid #e6d3b0;border-radius:18px;padding:28px 32px;max-width:780px;margin:0 auto;}
+  .honest h4{font-family:'Zen Old Mincho',serif;font-size:18px;color:var(--clay);margin-bottom:10px;}
+  .honest p{font-size:14px;color:#6b5535;}
+
+  /* CTA */
+  .contact{text-align:center;background:var(--ink);color:#fff;}
+  .contact h2{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(26px,4vw,40px);margin-bottom:18px;}
+  .contact p{color:#cbbca6;max-width:560px;margin:0 auto 32px;}
+
+  footer{background:#181309;color:#9c8c76;text-align:center;padding:30px;font-size:12px;}
+  footer .brand{font-family:'Zen Old Mincho',serif;color:#d6c4a8;font-weight:700;}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <a href="#" class="logo">
-    <div class="logo-icon">🌱</div>
-    <span class="logo-text">そだリー</span>
-  </a>
+<div class="topbar">
+  <div class="brand">サステナ<span>グリーン</span></div>
   <nav>
-    <a href="#features">機能</a>
-    <a href="#education">教育向け</a>
-    <a href="#story">想い</a>
-    <a href="#social">最新情報</a>
-    <a href="https://x.com/sodary_app" target="_blank" class="btn-primary">𝕏 フォローする</a>
+    <a href="#problem">課題</a>
+    <a href="#how">仕組み</a>
+    <a href="#cycle">事業モデル</a>
+    <a href="#sodary">そだリー</a>
+    <a href="#contact" class="cta">お問い合わせ</a>
   </nav>
+</div>
+
+<!-- ヒーロー -->
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">構想段階 ・ パートナー募集中</span>
+    <h1 class="serif">
+      <span style="animation-delay:.15s">育てる人の旅を、</span><br>
+      <span style="animation-delay:.3s">まるごと<span class="em">支える</span>。</span>
+    </h1>
+    <p class="sub">家庭菜園のはじめの一歩から、市民農園、そして就農まで。観察記録アプリ・植物の健康診断器・地域のデータ循環で、「育てる人」と「育てる文化」を地域ぐるみで育てるプラットフォーム構想です。</p>
+    <div class="actions">
+      <a href="#how" class="btn btn-main">構想を見る →</a>
+      <a href="sodary.html" class="btn btn-ghost">そだリーを見る</a>
+    </div>
+
+    <div class="stage-strip">
+      <div class="st"><div class="ic">🏠</div><div class="nm">家庭菜園</div><div class="ds">そだリーで記録</div></div>
+      <div class="st"><div class="ic">🌱</div><div class="nm">市民農園</div><div class="ds">測定器で診断</div></div>
+      <div class="st"><div class="ic">📊</div><div class="nm">データで上達</div><div class="ds">経時で学ぶ</div></div>
+      <div class="st"><div class="ic">🎓</div><div class="nm">半農・学び</div><div class="ds">実力を証明</div></div>
+      <div class="st"><div class="ic">🚜</div><div class="nm">就農</div><div class="ds">制度へ橋渡し</div></div>
+    </div>
+  </div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left reveal">
-    <div class="hero-tag">🌿 記録をシェアする観察日記アプリ</div>
-    <h1 class="hero-title">
-      育てる毎日を、<br>
-      <em>記録</em>してシェア。
-    </h1>
-    <p class="hero-sub">
-      観葉植物も、家庭菜園も、生き物の成長も—<br>
-      あなたの「育てる」を絵日記感覚で残そう。<br>
-      家族や友人とのシェア機能も準備中です。
-    </p>
-    <div class="hero-cta">
-      <a href="#features" class="btn-outline">機能を見る</a>
+<!-- 課題 -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="kicker">THE PROBLEM</div>
+    <h2 class="sec">「育てたい」のに、続かない。<br>そして担い手は減っていく。</h2>
+    <p class="sec-lead">家庭菜園は始めるハードルが高く、つまずくと離れてしまう。一方で日本の農業は高齢化と担い手不足が進む。この2つの課題は、地続きでつながっています。</p>
+    <div class="prob-grid">
+      <div class="prob-card"><div class="n">01</div><h3>始めても続かない</h3><p>病害虫・水やり・連作…分からないことだらけで、多くの初心者が途中で挫折する。</p></div>
+      <div class="prob-card"><div class="n">02</div><h3>状態が「見えない」</h3><p>葉の色や見た目だけでは、水不足か病気か判断しづらく、対処が後手に回る。</p></div>
+      <div class="prob-card"><div class="n">03</div><h3>趣味から先がない</h3><p>「もっと本格的に」と思っても、市民農園・半農・就農への道筋が分断されている。</p></div>
     </div>
-    <p class="hero-note">🌱 現在開発中！最新情報はXで発信中</p>
   </div>
+</section>
 
-  <div class="hero-right reveal">
-    <div style="position:relative; display:inline-block;">
-      <div class="phone-mockup">
-        <div class="phone-screen">
-          <!-- ヘッダー：そだリー実際のUI -->
-          <div class="phone-header">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div>
-                <div class="phone-header-title">🌱 そだリー</div>
-                <div class="phone-header-sub" style="font-size:8px;opacity:.5;margin-top:1px;">v1.0.0</div>
-              </div>
-              <div style="text-align:right;">
-                <div style="font-size:10px;opacity:.8;">5月28日（木）</div>
-                <div style="font-size:9px;opacity:.7;margin-top:1px;">☀️ 🌡24°/17° ☔20%</div>
-              </div>
-            </div>
-          </div>
-          <div class="phone-body">
-            <!-- AIアドバイス -->
-            <div style="background:white;border-radius:12px;padding:10px 11px;font-size:9.5px;color:#6b4226;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:10px;display:flex;gap:8px;align-items:flex-start;">
-              <span style="font-size:18px;">🤖</span>
-              <div>
-                <div style="font-weight:700;margin-bottom:3px;font-size:9px;color:#4a6741;">今日のAIアドバイス</div>
-                <div style="color:#8a7b6e;line-height:1.5;font-size:9px;">トマトのわき芽を取り除いて一本仕立てにしましょう。梅雨前に風通しを確保することが大切です。</div>
-              </div>
-            </div>
-            <!-- 植物カード -->
-            <div style="font-size:9px;font-weight:700;color:#6b4226;margin-bottom:6px;">🌿 育てている植物</div>
-            <div class="veg-card">
-              <span class="veg-emoji">🍅</span>
-              <div class="veg-info">
-                <div class="veg-name">ミニトマト</div>
-                <div class="veg-status">🪴 プランター ・ 47日目</div>
-              </div>
-              <div class="veg-badge water-needed">💧 水やり</div>
-            </div>
-            <div class="veg-card">
-              <span class="veg-emoji">🫑</span>
-              <div class="veg-info">
-                <div class="veg-name">ピーマン</div>
-                <div class="veg-status">🏢 ベランダ ・ 32日目</div>
-              </div>
-              <div class="veg-badge">✅ 良好</div>
-            </div>
-            <div class="veg-card">
-              <span class="veg-emoji">🌹</span>
-              <div class="veg-info">
-                <div class="veg-name">バラ（ピンク）</div>
-                <div class="veg-status">🌳 露地（庭） ・ 89日目</div>
-              </div>
-              <div class="veg-badge">🌸 開花中</div>
-            </div>
-          </div>
-          <!-- ナビバー：現在のアプリと同じ構成 -->
-          <div class="phone-tab">
-            <div class="tab-item active"><span class="tab-icon">🏠</span>ホーム</div>
-            <div class="tab-item"><span class="tab-icon">📷</span>日記</div>
-            <div class="tab-item"><span class="tab-icon">🤖</span>AI相談</div>
-            <div class="tab-item"><span class="tab-icon">👤</span>設定</div>
-          </div>
+<!-- ビジョン -->
+<section class="vision">
+  <div class="wrap">
+    <div class="kicker">OUR VISION</div>
+    <p class="big serif">育てながら、<em>人もそだっていく</em>。<br>野菜の成長も、育てる人の成長も、<br>地域の担い手も——まとめて育てる。</p>
+    <p class="note">サステナグリーンは、育てる人の「旅」の各段階を一本の線でつなぎ、データと人のサポートで伴走するプラットフォームを目指します。</p>
+  </div>
+</section>
+
+<!-- 仕組み -->
+<section id="how">
+  <div class="wrap">
+    <div class="kicker">HOW IT WORKS</div>
+    <h2 class="sec">記録と実測で、「見えない」を「見える」に。</h2>
+    <p class="sec-lead">スマホアプリでの観察記録と、独自のハンディ測定器による植物の健康診断。この2つで、勘や見た目に頼らない栽培を支えます。</p>
+
+    <div class="feat-row">
+      <div class="feat-visual"><div class="ic">📱</div><div class="cap">観察記録アプリ「そだリー」</div></div>
+      <div class="feat-text">
+        <h3 class="serif">記録が、学びに変わる</h3>
+        <p>毎日の観察を写真付きで記録。AIが「あなたの記録」を読み込んで相談に乗り、点の記録が線になって、栽培の上達につながります。</p>
+        <div class="pills"><span>観察記録</span><span>AI相談</span><span>生育ステージ</span><span>収支管理</span></div>
+      </div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-visual"><div class="ic">📡</div><div class="cap">ハンディ植物健康診断器</div></div>
+      <div class="feat-text">
+        <h3 class="serif">植物の「本当の状態」を実測</h3>
+        <p>葉の温度（水ストレス）とスペクトル（活性）を測り、見た目では分からない不調を捉えます。専門指標を、AIが「水をあげて／様子見で大丈夫」という行動に翻訳します。</p>
+        <div class="pills"><span>葉温=水ストレス</span><span>NDVI=活性</span><span>土壌水分</span><span>家庭で数秒</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- データ循環 -->
+<section class="cycle" id="cycle">
+  <div class="wrap">
+    <div class="kicker">BUSINESS MODEL</div>
+    <h2 class="sec">三者が得をする、データの循環。</h2>
+    <p class="sec-lead">測定器は農園にリースし、利用者がレンタル利用。集まった地域の栽培データは、匿名化して地域のホームセンター・園芸店へ。データを出す農園はリース代が軽くなり、三者すべてにメリットが回ります。</p>
+    <div class="cycle-grid">
+      <div class="cy-card"><div class="ic">🌱</div><h4>農園・利用者</h4><p>測定器で栽培を改善。データ提供でリース代が軽減され、実質負担が下がる。</p></div>
+      <div class="cy-card"><div class="ic">🌿</div><h4>サステナグリーン</h4><p>地域の実測データを集約・匿名化し、インサイトとして提供。プラットフォームを運営。</p></div>
+      <div class="cy-card"><div class="ic">🏪</div><h4>ホームセンター</h4><p>地域で今何が育てられ何に困っているかを把握し、仕入れ・品揃え・販促に活用。</p></div>
+    </div>
+    <p class="cy-flow">農園 →〔データ〕→ サステナグリーン →〔地域インサイト〕→ ホームセンター　／　収益はリース・データ・サービスの三本柱</p>
+  </div>
+</section>
+
+<!-- そだリー サマリー -->
+<section class="sodary" id="sodary">
+  <div class="wrap">
+    <div class="kicker">PROOF OF CONCEPT</div>
+    <h2 class="sec">いま動いている入口 ―「そだリー」</h2>
+    <p class="sec-lead" style="color:#cbe0b8;">構想の第一歩として、観察記録アプリ「そだリー」を開発・実証中。これは構想全体のPoC（実証）であり、「データを集める端末としての役割」を検証する位置づけです。</p>
+
+    <div class="sodary-box">
+      <div class="sodary-phone">
+        <div class="scr">
+          <div class="app-h">🌿 そだリー</div>
+          <div class="pl"><span class="e">🍅</span>ミニトマト<span class="stg">🌿 生育期</span></div>
+          <div class="pl"><span class="e">🥒</span>キュウリ<span class="stg">🌼 開花期</span></div>
+          <div class="pl"><span class="e">🍆</span>ナス<span class="stg">🌱 発芽期</span></div>
+          <div class="pl" style="border:none;color:var(--mist);font-size:11px;margin-top:6px;">積算温度から生育ステージを自動判定</div>
         </div>
       </div>
-      <div class="float-badge float-badge-1">🤖 記録を読むAI相談</div>
-      <div class="float-badge float-badge-2">📷 写真で記録</div>
-    </div>
-  </div>
-</section>
-
-<!-- TARGETS -->
-<section class="section targets" id="targets">
-  <div class="reveal">
-    <span class="section-label">そだリーって？</span>
-    <h2 class="section-title">記録をシェアする<br>観察日記アプリ</h2>
-    <p class="section-sub">観葉植物も、家庭菜園も、生き物の成長も。あなたの「育てる」を絵日記感覚で記録します。さらに、同じものを育てている人や、家族・友人の観察日記をタイムラインでシェアできます。</p>
-  </div>
-
-  <div class="targets-grid">
-    <div class="target-card reveal">
-      <span class="target-emoji">📔</span>
-      <div class="target-title">絵日記感覚で記録</div>
-      <div class="target-sub">写真を撮って、ひとこと添えるだけ。野菜・草花・観葉植物・虫や生き物まで、育てているものを気軽に残せます。</div>
-    </div>
-
-    <div class="target-card reveal">
-      <span class="target-emoji">👨‍👩‍👧</span>
-      <div class="target-title">家族や友人とシェア<span class="soon-badge">準備中</span></div>
-      <div class="target-sub">子どもと一緒の観察も、離れた家族とも。同じものを見ても感じ方は違うから、シェアすると発見が増えます。</div>
-    </div>
-
-    <div class="target-card reveal">
-      <span class="target-emoji">🌍</span>
-      <div class="target-title">同じものを育てる仲間と<span class="soon-badge">準備中</span></div>
-      <div class="target-sub">同じ植物・生き物を育てている人の日記をタイムラインで。「うちはこうだった」が、次の一歩のヒントになります。</div>
-    </div>
-  </div>
-</section>
-
-<!-- STORY SECTION -->
-<section class="section story" id="story">
-  <div class="story-inner">
-
-    <span class="section-label reveal">そだリーが生まれた理由</span>
-    <h2 class="section-title reveal" style="margin-bottom:8px;">育てながら、<br>人もそだっていく。</h2>
-    <p class="section-sub reveal" style="margin-bottom:56px;">家庭菜園を始めた父親が、子どもの青虫観察から気づいたこと。</p>
-
-    <!-- 本文カード -->
-    <div class="story-cards">
-
-      <div class="story-card reveal">
-        <div class="story-icon">🌱</div>
-        <h3 class="story-card-title">始めてみたら、<br>想像以上に難しかった</h3>
-        <p class="story-card-body">植えて水をやるだけでは、うまくいかなかった。病害虫の対処、追肥のタイミング、連作障害、摘芯、支柱の組み方——やることも、考えることも、想像以上に多い。<br><br>「家庭菜園って、ハードルが高い」。始めてみて、はじめてそう感じた。</p>
-      </div>
-
-      <div class="story-card reveal" data-reveal-delay="100">
-        <div class="story-icon">🐛</div>
-        <h3 class="story-card-title">野菜より虫が好きな<br>子どもと、一緒に</h3>
-        <p class="story-card-body">子どもと一緒に育てたくて、続けた。うまく作れなくていい——虫食いになった葉を見て「なんの虫だろう」と調べたり、青虫の成長を毎日観察したり。畑は、見て触れて学ぶ場所になった。<br><br>ところが、見て感じて、そのまま流れていく。記録しないと、消えてしまう。</p>
-      </div>
-
-      <div class="story-card reveal" data-reveal-delay="200">
-        <div class="story-icon">📝</div>
-        <h3 class="story-card-title">点が集まって、<br>線になっていく</h3>
-        <p class="story-card-body">毎日の観察を記録し始めたら、変わった。青虫がさなぎになる日が予測できた。去年の失敗の原因が見えてきた。子どもと感じ方が違うことに気づいた。<br><br>記録は「点」だけど、積み重なると「線」になる。そだリーは、その体験を作るアプリです。</p>
-      </div>
-
-    </div>
-
-    <!-- 引用 -->
-    <blockquote class="story-quote reveal">
-      「失敗したくはないけど、失敗から学んで、<br class="sp-br">人として育つことをサポートしたい。」
-    </blockquote>
-
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="section" id="features">
-  <span class="section-label reveal">主な機能</span>
-  <h2 class="section-title reveal">「農業ツール」じゃなくて<br>「観察日記」感覚で使える</h2>
-
-  <!-- Feature 1 -->
-  <div class="features-grid">
-    <div class="feature-visual reveal">
-      <div class="feature-visual-inner">
-        <div style="font-size:56px;">📷</div>
-        <div style="margin-top:12px;font-size:14px;font-weight:700;color:#4a6741;">写真＋コメントの成長日記</div>
-      </div>
-    </div>
-    <div class="reveal">
-      <span class="feature-label">記録</span>
-      <h3 class="feature-title">写真1枚から始まる<br>成長タイムライン</h3>
-      <p class="feature-desc">撮影した写真にコメントを添えるだけ。SNSのフィードのように、芽が出た日・花が咲いた日・収穫した日が、全部「観察日記」になって残ります。</p>
-      <ul class="feature-list">
-        <li>写真付きメモをタイムラインで確認</li>
-        <li>水やり・施肥・収穫をワンタップ記録</li>
-        <li>野菜・草花・観葉植物に対応</li>
-        <li>育てる場所（露地/プランター/室内）を選択</li>
+      <ul class="sodary-feats">
+        <li><span class="e">📓</span><div>写真付きの<b>観察記録</b>。育成中／完了を管理</div></li>
+        <li><span class="e">🤖</span><div>過去の記録を読み込む<b>AI相談・写真診断</b></div></li>
+        <li><span class="e">🌡️</span><div>積算温度による<b>生育ステージ表示</b></div></li>
+        <li><span class="e">🌱</span><div><b>連作障害チェック</b>・コンパニオンプランツ提案</div></li>
+        <li><span class="e">💰</span><div>写真AIで収穫量・売上を概算する<b>収支管理</b></div></li>
+        <li><span class="e">🌾</span><div>同じ農園の人とつながる<b>コミュニティ</b></div></li>
       </ul>
     </div>
-  </div>
 
-  <div class="features-divider" style="margin:64px 0;"></div>
-
-  <!-- Feature 2 -->
-  <div class="features-grid reverse">
-    <div class="feature-visual reveal">
-      <div class="feature-visual-inner">
-        <div style="font-size:56px;">🤖</div>
-        <div style="margin-top:12px;font-size:14px;font-weight:700;color:#4a6741;">AIがリアルタイムで診断</div>
-      </div>
+    <div class="role-note">
+      <b style="color:#fff;">アプリは差し替え可能な「窓」。</b> そだリーはPoCであり、本番アプリは既存サービス連携や外部開発に委ねる方針です。データの所有・利用権はプラットフォームに帰属させ、アプリを替えても事業の中核が揺らがない設計（データ主権アーキテクチャ）を採っています。
     </div>
-    <div class="reveal">
-      <span class="feature-label">AI相談</span>
-      <h3 class="feature-title">あなたの記録を読んで<br>答えるAI相談</h3>
-      <p class="feature-desc">一般論で終わらない。これまで記録した観察日記をAIが読み込んで、あなたの植物の状況に合わせた相談ができます。写真を添えれば、病害虫の診断もその場で。</p>
-      <ul class="feature-list">
-        <li>過去の記録をふまえた、あなた専用のアドバイス</li>
-        <li>写真を撮るだけで病害虫を診断</li>
-        <li>野菜名を入れるだけでAIが育て方を自動設定</li>
-        <li>わき芽かき・摘芯・施肥のタイミングを提案</li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="features-divider" style="margin:64px 0;"></div>
-
-  <!-- Feature 3 -->
-  <div class="features-grid">
-    <div class="feature-visual reveal">
-      <div class="feature-visual-inner">
-        <div style="font-size:56px;">☀️</div>
-        <div style="margin-top:12px;font-size:14px;font-weight:700;color:#4a6741;">天気と連動した自動アドバイス</div>
-      </div>
-    </div>
-    <div class="reveal">
-      <span class="feature-label">天気連携</span>
-      <h3 class="feature-title">気象庁データと連動<br>今日すべきことを提案</h3>
-      <p class="feature-desc">気象庁のリアルタイム天気データを取得。その日の気温・降水量に合わせて、水やりやタスクを自動で提案します。</p>
-      <ul class="feature-list">
-        <li>3時間刻みの天気予報と連動</li>
-        <li>積算温度で生育ステージを自動判定（予定）</li>
-        <li>季節ごとの病害虫アラート（予定）</li>
-        <li>収穫量・家計簿機能（予定）</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="features-divider" style="margin:64px 0;"></div>
-
-  <!-- Feature 4 -->
-  <div class="features-grid reverse">
-    <div class="feature-visual reveal">
-      <div class="feature-visual-inner">
-        <div style="font-size:56px;">📡</div>
-        <div style="margin-top:12px;font-size:14px;font-weight:700;color:#4a6741;">DIYセンサーキット</div>
-      </div>
-    </div>
-    <div class="reveal">
-      <span class="feature-label">センサーキット</span>
-      <h3 class="feature-title">畑に刺すだけで<br>データが自動記録</h3>
-      <p class="feature-desc">ESP32-CAMと温湿度・照度センサーのDIYキット。高価な専用機器は不要。壊れたら買い直し設計のシンプルなキットで、プロ並みのデータ収集が可能です。</p>
-      <ul class="feature-list">
-        <li>温度・湿度・照度を1時間ごとに自動記録</li>
-        <li>カメラで植物の成長を自動撮影</li>
-        <li>防水ケース込み（屋外設置対応）</li>
-        <li>教育向けにも対応（小中高）</li>
-      </ul>
+    <div style="text-align:center;margin-top:34px;">
+      <a href="sodary.html" class="btn btn-main" style="background:var(--gold);color:var(--ink);">そだリーの詳細を見る →</a>
     </div>
   </div>
 </section>
 
-<!-- ROADMAP -->
-<section class="section" id="roadmap" style="background:var(--fog);">
-  <div style="text-align:center;" class="reveal">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:var(--soil);font-size:12px;font-weight:700;padding:6px 18px;border-radius:20px;letter-spacing:.1em;margin-bottom:28px;">
-      🗺️ ロードマップ
-    </div>
-    <h2 class="section-title" style="margin-bottom:12px;">そだリーの歩み</h2>
-    <p class="section-sub" style="margin:0 auto 48px;">α版から始まり、ユーザーと一緒に育てていくサービスです。</p>
-  </div>
-
-  <!-- タイムライン -->
-  <div style="max-width:560px;margin:0 auto;padding:0 16px;" class="reveal">
-    <div style="position:relative;padding-left:32px;">
-
-      <!-- 縦線 -->
-      <div style="position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--moss),var(--petal));border-radius:2px;"></div>
-
-      <!-- α版：開発中 -->
-      <div style="position:relative;margin-bottom:36px;">
-        <div style="position:absolute;left:-32px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--sun);border:3px solid var(--moss);display:flex;align-items:center;justify-content:center;">
-          <div style="width:6px;height:6px;border-radius:50%;background:var(--moss);animation:pulse 1.5s infinite;"></div>
-        </div>
-        <div style="background:white;border-radius:16px;padding:18px 20px;border:2px solid var(--moss);box-shadow:0 4px 16px rgba(44,95,45,0.12);">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <span style="font-size:11px;font-weight:700;background:var(--sun);color:var(--soil);padding:3px 12px;border-radius:20px;letter-spacing:.06em;">開発中</span>
-            <span style="font-family:'Shippori Mincho',serif;font-size:17px;font-weight:800;color:var(--moss);">α版</span>
-          </div>
-          <div style="font-size:13px;color:var(--soil);line-height:1.8;">
-            植物記録・写真・AI相談・病害虫診断<br>
-            Googleログイン・地域データ収集
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
-            <span style="font-size:11px;background:var(--sky);color:var(--moss);padding:3px 10px;border-radius:20px;">🌿 植物登録</span>
-            <span style="font-size:11px;background:var(--sky);color:var(--moss);padding:3px 10px;border-radius:20px;">🤖 AI相談</span>
-            <span style="font-size:11px;background:var(--sky);color:var(--moss);padding:3px 10px;border-radius:20px;">📷 病害虫診断</span>
-            <span style="font-size:11px;background:var(--sky);color:var(--moss);padding:3px 10px;border-radius:20px;">🔐 ログイン</span>
-          </div>
-        </div>
+<!-- ロードマップ -->
+<section id="road">
+  <div class="wrap">
+    <div class="kicker">ROADMAP</div>
+    <h2 class="sec">小さく実証し、地域へ広げる。</h2>
+    <p class="sec-lead">壮大な構想だからこそ、未検証の仮説を一つずつ現実で確かめながら進めます。</p>
+    <div class="road-grid">
+      <div class="road-card now">
+        <div class="ph">PHASE 1</div>
+        <h4>そだリーで実証</h4>
+        <p>記録アプリを運用し、データが継続的に集まるかを検証。</p>
+        <span class="badge-now">現在地</span>
       </div>
-
-      <!-- β版 -->
-      <div style="position:relative;margin-bottom:36px;">
-        <div style="position:absolute;left:-32px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--fog);border:2px solid var(--mist);"></div>
-        <div style="background:white;border-radius:16px;padding:18px 20px;border:1px solid var(--petal);box-shadow:0 2px 8px rgba(61,43,31,0.05);">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <span style="font-size:11px;font-weight:700;background:var(--petal);color:var(--mist);padding:3px 12px;border-radius:20px;letter-spacing:.06em;">近日予定</span>
-            <span style="font-family:'Shippori Mincho',serif;font-size:17px;font-weight:800;color:var(--soil);">β版</span>
-          </div>
-          <div style="font-size:13px;color:var(--mist);line-height:1.8;">
-            コンテンツ機能・センサーキット連携
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
-            <span style="font-size:11px;background:var(--fog);color:var(--mist);padding:3px 10px;border-radius:20px;">📰 コラム</span>
-            <span style="font-size:11px;background:var(--fog);color:var(--mist);padding:3px 10px;border-radius:20px;">📡 センサーキット</span>
-          </div>
-        </div>
+      <div class="road-card">
+        <div class="ph">PHASE 2</div>
+        <h4>測定器の試作・実証</h4>
+        <p>市民農園で測定器を試し、水ストレス判定の有効性を確かめる。</p>
       </div>
-
-      <!-- 1,000人〜 -->
-      <div style="position:relative;margin-bottom:36px;">
-        <div style="position:absolute;left:-32px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--fog);border:2px solid var(--mist);"></div>
-        <div style="background:white;border-radius:16px;padding:18px 20px;border:1px solid var(--petal);box-shadow:0 2px 8px rgba(61,43,31,0.05);">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <span style="font-size:11px;font-weight:700;background:var(--petal);color:var(--mist);padding:3px 12px;border-radius:20px;letter-spacing:.06em;">1,000人〜</span>
-            <span style="font-family:'Shippori Mincho',serif;font-size:17px;font-weight:800;color:var(--soil);">栽培データ活用</span>
-          </div>
-          <div style="font-size:13px;color:var(--mist);line-height:1.8;">
-            栽培トレンド・病害虫レポートを<br>ホームセンター・園芸メーカーへ提供開始
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
-            <span style="font-size:11px;background:var(--fog);color:var(--mist);padding:3px 10px;border-radius:20px;">📊 統計レポート</span>
-            <span style="font-size:11px;background:var(--fog);color:var(--mist);padding:3px 10px;border-radius:20px;">🏪 BtoB連携</span>
-          </div>
-        </div>
+      <div class="road-card">
+        <div class="ph">PHASE 3</div>
+        <h4>データ循環の検証</h4>
+        <p>地域でデータを集め、ホームセンターへの提供価値を実証。</p>
       </div>
-
-      <!-- 5,000人〜 -->
-      <div style="position:relative;">
-        <div style="position:absolute;left:-32px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--fog);border:2px solid var(--mist);"></div>
-        <div style="background:white;border-radius:16px;padding:18px 20px;border:1px solid var(--petal);box-shadow:0 2px 8px rgba(61,43,31,0.05);">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <span style="font-size:11px;font-weight:700;background:var(--petal);color:var(--mist);padding:3px 12px;border-radius:20px;letter-spacing:.06em;">5,000人〜</span>
-            <span style="font-family:'Shippori Mincho',serif;font-size:17px;font-weight:800;color:var(--soil);">有料・クーポン連携</span>
-          </div>
-          <div style="font-size:13px;color:var(--mist);line-height:1.8;">
-            有料プラン導入・パートナー店舗との<br>クーポン・おすすめ情報連携
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
-            <span style="font-size:11px;background:var(--fog);color:var(--mist);padding:3px 10px;border-radius:20px;">💳 有料プラン</span>
-            <span style="font-size:11px;background:var(--fog);color:var(--mist);padding:3px 10px;border-radius:20px;">🎫 クーポン連携</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <style>
-    @keyframes pulse {
-      0%,100% { transform:scale(1); opacity:1; }
-      50%      { transform:scale(1.6); opacity:.5; }
-    }
-  </style>
-</section>
-
-<!-- EDUCATION -->
-<section class="section education" id="education">
-  <div class="reveal" style="margin-bottom:20px;">
-    <div style="display:inline-flex;align-items:center;gap:12px;background:var(--sky);border-radius:20px;padding:10px 28px;">
-      <span style="font-size:28px;">🎒</span>
-      <span style="font-family:'Shippori Mincho',serif;font-size:clamp(24px,3vw,40px);font-weight:800;color:var(--moss);letter-spacing:.05em;">教育向け</span>
-    </div>
-  </div>
-  <h2 class="section-title reveal">子どもの「育てる体験」を<br>データで深める</h2>
-  <p class="section-sub reveal">センサーキットは教育現場にも対応。小学生の観察日記感覚から、高校生のデータ活用まで、段階的な学びをサポートします。</p>
-
-  <div class="edu-grid">
-    <div class="edu-card reveal">
-      <div class="edu-grade">小学生向け</div>
-      <span class="edu-icon">✏️</span>
-      <div class="edu-title">観察日記感覚で記録</div>
-      <div class="edu-desc">写真を撮って、コメントを書くだけ。「芽が出た！」「花が咲いた！」を観察日記として残せます。難しい操作は一切なし。</div>
-      <div class="edu-tags">
-        <span class="tag">写真記録</span>
-        <span class="tag">シンプルUI</span>
-        <span class="tag">夏休みの自由研究</span>
-      </div>
-    </div>
-
-    <div class="edu-card reveal">
-      <div class="edu-grade">中学生向け</div>
-      <span class="edu-icon">🔬</span>
-      <div class="edu-title">観察＋データ記録</div>
-      <div class="edu-desc">センサーキットで温度・湿度・照度を自動記録。植物の成長と環境データの関係を理科の授業と連携して考える。</div>
-      <div class="edu-tags">
-        <span class="tag">センサー連携</span>
-        <span class="tag">理科連携</span>
-        <span class="tag">グラフ表示</span>
-      </div>
-    </div>
-
-    <div class="edu-card reveal">
-      <div class="edu-grade">高校生向け</div>
-      <span class="edu-icon">📊</span>
-      <div class="edu-title">データを分析・活用</div>
-      <div class="edu-desc">蓄積したセンサーデータをCSVエクスポートしてExcelやPythonで分析。積算温度・生育モデルなど、農業×データサイエンスを体験。</div>
-      <div class="edu-tags">
-        <span class="tag">CSVエクスポート</span>
-        <span class="tag">データ分析</span>
-        <span class="tag">探究学習</span>
+      <div class="road-card">
+        <div class="ph">PHASE 4</div>
+        <h4>就農への橋渡し</h4>
+        <p>既存の就農支援制度と連携し、担い手育成へつなぐ。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SNS SECTION -->
-<section class="section social" id="social">
-  <div style="text-align:center;" class="reveal">
-    <span class="section-label">開発の裏側、発信中</span>
-    <h2 class="section-title" style="margin-bottom:16px;">X（Twitter）で<br>リアルタイム発信中</h2>
-    <p class="section-sub" style="margin:0 auto 40px;">新機能・開発進捗・植物ネタをつぶやいています。<br>フォローしてリリースをお見逃しなく！</p>
-  </div>
-
-  <!-- X タイムライン埋め込み（X Publish公式コード） -->
-  <div style="max-width:540px;margin:0 auto 40px;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(61,43,31,0.08);">
-    <a class="twitter-timeline"
-       data-lang="ja"
-       data-height="500"
-       data-theme="light"
-       data-chrome="noheader nofooter noborders"
-       href="https://twitter.com/sodary_app?ref_src=twsrc%5Etfw">
-      Tweets by sodary_app
-    </a>
-  </div>
-
-  <div style="text-align:center;" class="reveal">
-    <a href="https://x.com/sodary_app" target="_blank" class="social-btn" style="display:inline-flex;margin:0 auto;">
-      <span style="font-size:20px;">𝕏</span>
-      <span>@sodary_app をフォローする</span>
-    </a>
+<!-- 誠実さ注記 -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="honest">
+      <h4>正直に、構想段階です。</h4>
+      <p>本ページの事業モデル・価格・データの価値は、まだ現実で検証しきれていない仮説を含みます。だからこそ私たちは、資料を増やすより小さな実証を重ねる方針です。一緒に検証し、育ててくださるパートナー（市民農園・自治体・ホームセンター・教育機関・技術/資金面の協力者）を探しています。</p>
+    </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- CTA -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2 class="serif">この構想を、<br>一緒に育てませんか。</h2>
+    <p>市民農園・自治体・ホームセンター・教育機関の皆さま、技術や資金で関わってくださる方を募集しています。まずはお話からでも。</p>
+    <a href="mailto:" class="btn btn-main" style="background:var(--gold);color:var(--ink);">お問い合わせ →</a>
+  </div>
+</section>
+
 <footer>
-  <div class="footer-logo">🌱 そだリー</div>
-  <div class="footer-links">
-    <a href="#" onclick="document.getElementById('privacyModal').style.display='flex';return false;">プライバシーポリシー</a>
-    <a href="#" onclick="document.getElementById('tosModal').style.display='flex';return false;">利用規約</a>
-    <a href="mailto:sodary.app@ymail.ne.jp" title="sodary.app@ymail.ne.jp">お問い合わせ</a>
-    <a href="mailto:sodary.app@ymail.ne.jp?subject=教育向け相談">教育向け相談</a>
-  </div>
-  <div class="footer-copy">© 2026 そだリー. All rights reserved.</div>
+  <div class="brand">サステナグリーン</div>
+  <p>Sustainability Living at Home（仮称）／ 本ページは構想段階の内容で、数値・モデルはすべて検証対象です。</p>
 </footer>
 
-<!-- ===== プライバシーポリシーモーダル ===== -->
-<div id="privacyModal" style="display:none;position:fixed;inset:0;background:rgba(42,31,23,0.6);z-index:500;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);" onclick="if(event.target===this)this.style.display='none'">
-  <div style="background:#faf6ee;border-radius:28px 28px 0 0;padding:28px 24px 48px;width:100%;max-width:640px;max-height:85vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);">
-    <div style="width:40px;height:4px;background:#f2e8d9;border-radius:2px;margin:0 auto 24px;"></div>
-    <h2 style="font-family:'Shippori Mincho',serif;font-size:22px;font-weight:800;color:#3d2b1f;margin-bottom:6px;">プライバシーポリシー</h2>
-    <p style="font-size:12px;color:#8a7b6e;margin-bottom:28px;">最終更新日：2026年5月27日</p>
-
-    <div style="font-size:14px;color:#2a1f17;line-height:1.9;">
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第1条（基本方針）</h3>
-      <p>そだリー（以下「本サービス」）は、ユーザーのプライバシーを尊重し、個人情報を適切に管理・保護することを基本方針とします。本ポリシーは、本サービスが収集する情報の種類・目的・管理方法について説明するものです。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第2条（収集する情報）</h3>
-      <p>本サービスは、以下の情報を収集します。</p>
-      <p style="margin-top:8px;">
-        <strong>アカウント情報：</strong>Googleアカウントを通じた氏名・メールアドレス・プロフィール写真URL<br>
-        <strong>プロフィール情報：</strong>お住まいの都道府県・主な栽培環境・栽培歴（登録時に任意入力）<br>
-        <strong>利用データ：</strong>登録した植物の種類・記録内容・写真・AI相談の利用履歴<br>
-        <strong>統計データ：</strong>機能の利用頻度・AI相談のキーワード（匿名集計）<br>
-        <strong>マーケティング同意：</strong>パートナー企業からのお得情報受け取りの可否（任意）
-      </p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第3条（情報の利用目的）</h3>
-      <p>収集した情報は、以下の目的で利用します。</p>
-      <p style="margin-top:8px;">
-        ・本サービスの提供・改善・新機能の開発<br>
-        ・ユーザーへのAIアドバイス精度の向上<br>
-        ・地域・季節に合わせた情報の提供<br>
-        ・個人を特定できない形に加工した統計データとして、パートナー企業（ホームセンター・園芸店・農業資材メーカー等）への情報提供<br>
-        ・マーケティング同意済みユーザーへのパートナー企業からのクーポン・お得情報の提供（将来予定）
-      </p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第4条（第三者提供について）</h3>
-      <p>本サービスは、以下の場合を除き、ユーザーの個人情報を第三者に提供しません。</p>
-      <p style="margin-top:8px;">
-        ・ユーザーの同意がある場合<br>
-        ・個人を特定できない形に加工した統計データとしての提供<br>
-        ・法令に基づく開示要求があった場合
-      </p>
-      <p style="margin-top:8px;">なお、匿名化・集計処理した栽培トレンドデータは、農業・園芸関連の事業者への統計情報として提供する場合があります。この場合、個人が特定される情報は一切含みません。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第5条（データの保管）</h3>
-      <p>ユーザーデータはGoogle LLC（Firebase）のサーバーに保管されます。Googleのプライバシーポリシーについては <a href="https://policies.google.com/privacy" target="_blank" style="color:#4a6741;">こちら</a> をご確認ください。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第6条（ユーザーの権利）</h3>
-      <p>ユーザーは、以下の権利を有します。</p>
-      <p style="margin-top:8px;">
-        ・自身のデータの閲覧・修正を行う権利<br>
-        ・マーケティング同意をいつでも撤回する権利<br>
-        ・アカウントを削除し、関連するすべてのデータの消去を求める権利
-      </p>
-      <p style="margin-top:8px;">アカウント削除はアプリ内の設定画面から行えます。削除後、すべての個人データは30日以内に完全に消去されます。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第7条（Cookieおよびローカルストレージ）</h3>
-      <p>本サービスは、AIアドバイスのキャッシュ・オンボーディング表示管理等の目的で、ブラウザのローカルストレージを使用します。広告目的のトラッキングCookieは使用しません。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第8条（ポリシーの変更）</h3>
-      <p>本ポリシーを変更する場合は、本ページに掲載の上、公式X（@sodary_app）にてお知らせします。重要な変更がある場合は、アプリ内でも通知します。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第9条（お問い合わせ）</h3>
-      <p>プライバシーに関するお問い合わせは、下記までお願いします。<br>
-      <a href="mailto:sodary.app@ymail.ne.jp" style="color:#4a6741;">sodary.app@ymail.ne.jp</a></p>
-
-    </div>
-
-    <button onclick="document.getElementById('privacyModal').style.display='none'"
-      style="width:100%;margin-top:32px;background:#4a6741;color:white;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;">
-      閉じる
-    </button>
-  </div>
-</div>
-
-<!-- ===== 利用規約モーダル ===== -->
-<div id="tosModal" style="display:none;position:fixed;inset:0;background:rgba(42,31,23,0.6);z-index:500;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);" onclick="if(event.target===this)this.style.display='none'">
-  <div style="background:#faf6ee;border-radius:28px 28px 0 0;padding:28px 24px 48px;width:100%;max-width:640px;max-height:85vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);">
-    <div style="width:40px;height:4px;background:#f2e8d9;border-radius:2px;margin:0 auto 24px;"></div>
-    <h2 style="font-family:'Shippori Mincho',serif;font-size:22px;font-weight:800;color:#3d2b1f;margin-bottom:6px;">利用規約</h2>
-    <p style="font-size:12px;color:#8a7b6e;margin-bottom:28px;">最終更新日：2026年5月26日</p>
-
-    <div style="font-size:14px;color:#2a1f17;line-height:1.9;">
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第1条（適用）</h3>
-      <p>本利用規約（以下「本規約」）は、そだリー（以下「本サービス」）の利用に関する条件を定めるものです。本サービスを利用された場合、本規約に同意したものとみなします。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第2条（サービスの内容）</h3>
-      <p>本サービスは、家庭菜園・草花・観葉植物の観察記録・AI相談・病害虫診断などの機能を提供するWebアプリケーションです。本サービスは現在開発中であり、機能・仕様は予告なく変更される場合があります。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第3条（禁止事項）</h3>
-      <p>ユーザーは以下の行為を行ってはなりません。</p>
-      <p style="margin-top:8px;">・本サービスの運営を妨げる行為<br>
-      ・他のユーザーまたは第三者の権利を侵害する行為<br>
-      ・法令または公序良俗に違反する行為<br>
-      ・本サービスを通じた商業目的の広告・勧誘行為<br>
-      ・本サービスのシステムへの不正アクセス行為<br>
-      ・その他、当サービス運営者が不適切と判断する行為</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第4条（AI機能の利用について）</h3>
-      <p>本サービスのAI相談・病害虫診断機能はAnthropicのClaude AIを利用しています。AI の回答は参考情報であり、専門家による診断・アドバイスの代替とはなりません。AI の回答に起因するいかなる損害についても、当サービス運営者は責任を負いません。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第5条（データの取り扱い）</h3>
-      <p>ユーザーが登録した植物情報・記録・写真等のデータはFirebase（Google LLC）のサービスを利用して保管されます。当サービス運営者はユーザーデータを第三者へ販売・提供しません。ただし、法令に基づく開示要求がある場合はこの限りではありません。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第6条（免責事項）</h3>
-      <p>当サービス運営者は、本サービスの利用によって生じたいかなる損害（植物の枯死・農作物の被害・データの消失等を含む）についても、責任を負いません。本サービスは現状有姿で提供されるものであり、特定目的への適合性を保証するものではありません。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第7条（サービスの変更・停止）</h3>
-      <p>当サービス運営者は、ユーザーへの事前通知なく、本サービスの内容変更・一時停止・終了を行う場合があります。これによりユーザーに生じた損害について、当サービス運営者は責任を負いません。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第8条（料金・プランについて）</h3>
-      <p>本サービスは現在開発中のため、無料・有料を含むすべてのプランは未リリースです。リリース時期・料金・プラン内容については、公式X（@sodary_app）およびランディングページにてお知らせします。リリース前における本サービスの利用はベータ版としての提供であり、内容は予告なく変更される場合があります。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第9条（規約の変更）</h3>
-      <p>当サービス運営者は、必要に応じて本規約を変更することがあります。変更後の規約は本ページに掲載した時点で効力を生じるものとします。</p>
-
-      <h3 style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:#3d2b1f;margin:20px 0 8px;">第10条（お問い合わせ）</h3>
-      <p>本規約に関するお問い合わせは、下記までお願いします。<br>
-      <a href="mailto:sodary.app@ymail.ne.jp" style="color:#4a6741;">sodary.app@ymail.ne.jp</a></p>
-
-    </div>
-
-    <button onclick="document.getElementById('tosModal').style.display='none'"
-      style="width:100%;margin-top:32px;background:#4a6741;color:white;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;">
-      閉じる
-    </button>
-  </div>
-</div>
-
-<script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  let revealIndex = 0;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const delay = entry.target.dataset.revealDelay || 0;
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-        }, Number(delay));
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => observer.observe(el));
-</script>
-
-<!-- X widgets.js: DOM完成後に読み込む -->
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
