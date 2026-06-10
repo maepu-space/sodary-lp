@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植物健康チェッカー｜かざして数秒、水やりサインが見える — サステナグリーン</title>
+<meta name="description" content="サーモグラフィで葉の温度を読み、水やりのタイミングを判定するハンディ測定器。サステナグリーンが開発中の試作機（プロトタイプ）です。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE（index.htmlと共通トークン） ===== */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --ink:#1e1810; --soil:#2e2115; --bark:#6b4226;
+  --moss:#234d16; --leaf:#4e7d39; --sprout:#8fb86a;
+  --mist:#7a6b5a; --sky:#e4efcf; --paper:#f8f4ec;
+  --cream:#fffdf8; --line:#ddd0bd; --gold:#c9923a;
+  --amber:#e8c84a; --clay:#a85d2e;
+  --font-serif:'Zen Old Mincho',serif;
+  --font-sans:'Noto Sans JP',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+body{
+  font-family:var(--font-sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;}
+
+/* ===== TOPBAR ===== */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 36px;
+  background:rgba(248,244,236,0.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(221,208,189,0.6);
+  transition:box-shadow 0.3s;
+}
+.topbar.scrolled{box-shadow:0 4px 20px rgba(30,24,16,0.08);}
+.topbar-brand{
+  font-family:var(--font-serif);
+  font-weight:900;font-size:18px;
+  color:var(--moss);letter-spacing:0.04em;
+}
+.topbar-brand em{font-style:normal;color:var(--clay);}
+.topbar-nav{display:flex;gap:28px;align-items:center;}
+.topbar-nav a{
+  font-size:13px;font-weight:500;
+  color:var(--soil);letter-spacing:0.03em;
+  transition:color 0.2s;
+}
+.topbar-nav a:hover{color:var(--moss);}
+.topbar-nav .btn-cta{
+  background:var(--moss);color:#fff;
+  padding:8px 20px;border-radius:24px;
+  font-size:13px;font-weight:700;
+  transition:background 0.2s,transform 0.15s;
+}
+.topbar-nav .btn-cta:hover{background:var(--leaf);transform:translateY(-1px);}
+@media(max-width:720px){.topbar-nav a:not(.btn-cta){display:none;}}
+
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;border-radius:32px;
+  font-size:15px;font-weight:700;
+  font-family:var(--font-sans);
+  transition:transform 0.15s,box-shadow 0.2s;
+}
+.btn-primary{
+  background:var(--moss);color:#fff;
+  box-shadow:0 8px 24px rgba(35,77,22,0.28);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(35,77,22,0.36);}
+.btn-ghost{
+  background:transparent;color:var(--moss);
+  border:1.5px solid var(--moss);
+}
+.btn-ghost:hover{background:var(--moss);color:#fff;}
+.btn-gold{
+  background:var(--gold);color:#fff;
+  box-shadow:0 8px 24px rgba(201,146,58,0.3);
+}
+.btn-gold:hover{transform:translateY(-2px);}
+
+/* ===== SECTION BASE ===== */
+section{padding:96px 0;}
+.kicker{
+  font-size:11px;font-weight:700;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--clay);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.kicker::before{
+  content:'';display:inline-block;
+  width:24px;height:1px;background:var(--clay);
+}
+h2.sec-title{
+  font-family:var(--font-serif);
+  font-weight:900;
+  font-size:clamp(28px,4vw,42px);
+  line-height:1.35;color:var(--ink);
+  margin-bottom:20px;
+}
+.sec-lead{
+  font-size:16px;font-weight:300;
+  color:var(--mist);max-width:660px;
+  margin-bottom:56px;line-height:1.9;
+}
+
+/* ===== HERO ===== */
+.hero{
+  padding:150px 0 90px;
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 75% 10%, rgba(143,184,106,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 5% 90%, rgba(201,146,58,0.1) 0%, transparent 50%),
+    var(--paper);
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.05fr 0.95fr;
+  gap:56px;align-items:center;
+}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;}}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(232,200,74,0.18);
+  border:1px solid var(--amber);
+  color:#8a6d10;
+  border-radius:24px;font-size:12.5px;font-weight:700;
+  padding:5px 18px;margin-bottom:22px;
+}
+.hero h1{
+  font-family:var(--font-serif);
+  font-weight:900;
+  font-size:clamp(32px,4.6vw,50px);
+  line-height:1.4;margin-bottom:22px;
+}
+.hero h1 em{
+  font-style:normal;color:var(--moss);
+  background:linear-gradient(transparent 65%, rgba(232,200,74,0.45) 65%);
+}
+.hero-sub{
+  font-size:16px;font-weight:300;color:var(--mist);
+  max-width:480px;margin-bottom:34px;line-height:2;
+}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;}
+
+/* ===== DEVICE MOCK ===== */
+.device-mock{
+  background:#2b2b2b;border-radius:20px;
+  padding:18px 18px 14px;
+  box-shadow:0 24px 56px rgba(30,24,16,0.28);
+  max-width:400px;margin:0 auto;
+}
+.device-screen{
+  background:#000;border-radius:9px;
+  aspect-ratio:4/3;display:flex;overflow:hidden;
+}
+.ds-map{
+  flex:3;display:grid;
+  grid-template-columns:repeat(8,1fr);
+  grid-template-rows:repeat(8,1fr);
+  gap:1px;
+}
+.ds-info{
+  flex:1.15;border-left:2px solid #1a3a2a;
+  padding:11px 9px;
+  font-family:var(--font-mono);font-size:10.5px;
+  display:flex;flex-direction:column;gap:7px;
+}
+.ds-info .l{display:block;color:#00bcd4;font-size:8.5px;letter-spacing:0.08em;}
+.ds-info .v{display:block;color:#eee;}
+.device-btns{display:flex;justify-content:center;gap:30px;margin-top:12px;}
+.device-btns span{width:34px;height:12px;background:#444;border-radius:4px;display:block;}
+.device-caption{
+  text-align:center;font-size:12.5px;font-weight:300;
+  color:var(--mist);margin-top:16px;
+}
+
+/* ===== STEPS ===== */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media(max-width:760px){.steps{grid-template-columns:1fr;}}
+.step{
+  background:var(--cream);border:1px solid var(--line);
+  border-radius:18px;padding:34px 28px;
+}
+.step-num{
+  font-family:var(--font-serif);font-weight:900;
+  font-size:40px;color:var(--gold);line-height:1;
+  margin-bottom:14px;
+}
+.step .icon{font-size:32px;margin-bottom:12px;}
+.step h3{font-size:17px;font-weight:700;margin-bottom:8px;}
+.step p{font-size:14px;font-weight:300;color:var(--mist);}
+
+/* ===== PRINCIPLE ===== */
+.principle{background:var(--sky);}
+.principle-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:40px;align-items:start;
+}
+@media(max-width:860px){.principle-grid{grid-template-columns:1fr;}}
+.leaf-diagram{
+  background:var(--cream);border:1px solid var(--line);
+  border-radius:18px;padding:34px 26px;text-align:center;
+}
+.leaf-row{display:flex;justify-content:space-around;align-items:flex-end;}
+.leaf-case{width:45%;}
+.leaf-icon{font-size:56px;}
+.leaf-temp{
+  font-family:var(--font-mono);font-size:14px;font-weight:700;margin-top:8px;
+}
+.temp-cool{color:var(--moss);}
+.temp-hot{color:var(--clay);}
+.leaf-label{font-size:12.5px;font-weight:300;color:var(--mist);margin-top:6px;line-height:1.7;}
+.judge-table{width:100%;border-collapse:collapse;font-size:14px;background:var(--cream);border-radius:12px;overflow:hidden;}
+.judge-table th{
+  background:var(--moss);color:#fff;
+  padding:11px 14px;text-align:left;font-weight:500;font-size:13px;
+}
+.judge-table td{padding:11px 14px;border-bottom:1px solid var(--line);}
+.judge-table tr:last-child td{border-bottom:none;}
+.jd{
+  display:inline-block;padding:3px 14px;border-radius:6px;
+  color:#fff;font-weight:700;font-size:12.5px;
+}
+.jd-ok{background:var(--leaf);}
+.jd-watch{background:var(--gold);}
+.jd-water{background:var(--clay);}
+.principle-note{font-size:12.5px;font-weight:300;color:var(--mist);margin-top:12px;}
+
+/* ===== SPECS ===== */
+.spec-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:18px;
+}
+.spec-card{
+  background:var(--cream);border:1px solid var(--line);
+  border-radius:16px;padding:26px 24px;
+}
+.spec-card .icon{font-size:28px;margin-bottom:10px;}
+.spec-card h4{font-size:15px;font-weight:700;margin-bottom:4px;}
+.spec-card .mono{
+  font-family:var(--font-mono);font-size:11.5px;
+  color:var(--moss);margin-bottom:6px;display:block;
+}
+.spec-card p{font-size:13px;font-weight:300;color:var(--mist);}
+
+/* ===== ECOSYSTEM ===== */
+.eco{background:var(--soil);}
+.eco .kicker{color:var(--amber);}
+.eco .kicker::before{background:var(--amber);}
+.eco h2.sec-title{color:#fff;}
+.eco .sec-lead{color:rgba(255,255,255,0.55);}
+.eco-flow{
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;flex-wrap:wrap;margin-bottom:40px;
+}
+.eco-node{
+  background:rgba(255,255,255,0.06);
+  border:1.5px solid rgba(255,255,255,0.16);
+  border-radius:14px;padding:18px 22px;
+  text-align:center;min-width:130px;
+}
+.eco-node.hot{
+  border-color:var(--sprout);
+  background:rgba(143,184,106,0.12);
+}
+.eco-node .ic{font-size:28px;display:block;}
+.eco-node .nm{font-size:13.5px;font-weight:700;color:#fff;margin-top:6px;}
+.eco-node .ds{font-size:11px;font-weight:300;color:rgba(255,255,255,0.45);margin-top:2px;}
+.eco-arrow{color:var(--amber);font-size:22px;font-weight:900;}
+.eco-center{text-align:center;}
+
+/* ===== HONEST ===== */
+.honest-box{
+  background:var(--cream);
+  border:1.5px solid var(--gold);
+  border-radius:18px;padding:34px 38px;
+  display:grid;grid-template-columns:60px 1fr;gap:24px;align-items:start;
+  max-width:840px;margin:0 auto;
+}
+@media(max-width:620px){.honest-box{grid-template-columns:1fr;}}
+.honest-icon{font-size:42px;}
+.honest-box h4{
+  font-family:var(--font-serif);font-weight:900;
+  font-size:19px;color:var(--bark);margin-bottom:10px;
+}
+.honest-box p{font-size:14px;font-weight:300;color:var(--mist);line-height:2;margin-bottom:8px;}
+.honest-box p:last-child{margin-bottom:0;}
+.honest-box a{color:var(--moss);font-weight:700;}
+
+/* ===== ROADMAP ===== */
+.road-track{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+@media(max-width:860px){.road-track{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:540px){.road-track{grid-template-columns:1fr;}}
+.road-card{
+  background:var(--cream);border:1px solid var(--line);
+  border-radius:16px;padding:24px 22px;position:relative;
+}
+.road-card.now{
+  border-color:var(--leaf);
+  box-shadow:0 0 0 4px rgba(143,184,106,0.2);
+}
+.road-phase{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.12em;color:var(--gold);font-weight:500;
+}
+.road-card h4{font-size:15px;font-weight:700;margin:8px 0 6px;}
+.road-card p{font-size:13px;font-weight:300;color:var(--mist);}
+.road-badge-now{
+  display:inline-block;margin-top:10px;
+  font-size:11px;font-weight:700;color:var(--moss);
+  background:var(--sky);border-radius:12px;padding:2px 12px;
+}
+
+/* ===== CTA ===== */
+.cta-sec{
+  background:var(--moss);text-align:center;
+  padding:88px 32px;
+}
+.cta-sec .kicker{color:var(--amber);justify-content:center;}
+.cta-sec .kicker::before{background:var(--amber);}
+.cta-sec h2{
+  font-family:var(--font-serif);font-weight:900;
+  font-size:clamp(24px,3.6vw,36px);color:#fff;
+  line-height:1.5;margin-bottom:14px;
+}
+.cta-sec p{color:rgba(255,255,255,0.65);font-weight:300;margin-bottom:34px;}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;padding:48px 32px;
+  border-top:1px solid var(--line);
+}
+.footer-brand{
+  font-family:var(--font-serif);font-weight:900;
+  font-size:17px;color:var(--moss);margin-bottom:10px;
+}
+.footer-brand em{font-style:normal;color:var(--clay);}
+footer p{font-size:12px;font-weight:300;color:var(--mist);margin-bottom:14px;}
+.footer-x{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:500;color:var(--soil);
+}
+.footer-x svg{width:16px;height:16px;fill:var(--soil);}
+.footer-links{font-size:13px;margin-bottom:14px;}
+.footer-links a{color:var(--moss);font-weight:500;}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.7s,transform 0.7s;}
+.reveal.visible{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar" id="topbar">
+  <a class="topbar-brand" href="index.html">サステナ<em>グリーン</em></a>
+  <nav class="topbar-nav">
+    <a href="#howto">使い方</a>
+    <a href="#principle">仕組み</a>
+    <a href="#specs">技術</a>
+    <a href="#road">ロードマップ</a>
+    <a href="index.html" class="btn-cta">プラットフォームへ</a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker">PLANT HEALTH CHECKER</div>
+      <span class="hero-badge">⚗️ 試作機 開発中 — 製品販売はまだ行っていません</span>
+      <h1>かざして数秒。<br>植物の<em>「水やりサイン」</em>が、<br>見える。</h1>
+      <p class="hero-sub">サーモグラフィで葉の温度を読む。蒸散が止まった葉は温度が上がる——その生理サインを、手のひらサイズの測定器で捉えます。</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#principle">仕組みを見る →</a>
+        <a class="btn btn-ghost" href="index.html">サステナグリーンとは</a>
+      </div>
+    </div>
+    <div>
+      <div class="device-mock">
+        <div class="device-screen">
+          <div class="ds-map" id="heroThermal"></div>
+          <div class="ds-info">
+            <div><span class="l">AIR</span><span class="v">26.4C</span></div>
+            <div><span class="l">HUM</span><span class="v">62%</span></div>
+            <div><span class="l">dT</span><span class="v">3.1C</span></div>
+            <div><span class="v" style="color:#8fb86a;font-weight:700;">OK</span></div>
+            <div><span class="v" style="color:#00bcd4;">8FPS</span></div>
+          </div>
+        </div>
+        <div class="device-btns"><span></span><span></span><span></span></div>
+      </div>
+      <p class="device-caption">試作機の表示イメージ（M5Stackベース・開発中）</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW TO -->
+<section id="howto">
+  <div class="wrap">
+    <div class="kicker reveal">HOW TO USE</div>
+    <h2 class="sec-title reveal">使い方は、かざすだけ。</h2>
+    <p class="sec-lead reveal">土に挿す水分計と違って、非接触・非破壊。たくさんの鉢も、ベランダの端から端まで、さっとチェックできます。</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="icon">🌿</div>
+        <h3>葉にかざす</h3>
+        <p>30cmほどの距離から葉に向けます。直射日光の当たらない場所での測定がおすすめです。</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div class="icon">🌡️</div>
+        <h3>温度を読む</h3>
+        <p>内蔵サーモセンサが葉の表面温度の分布をリアルタイムにカラー表示。同時に気温・湿度も計測します。</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="icon">💧</div>
+        <h3>サインを確認</h3>
+        <p>葉温と気温の差から水ストレスを判定。OK / WATCH / WATER の3段階で、その場で表示します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLE -->
+<section class="principle" id="principle">
+  <div class="wrap">
+    <div class="kicker reveal">PRINCIPLE</div>
+    <h2 class="sec-title reveal">葉っぱは、汗をかいて涼んでいる。</h2>
+    <p class="sec-lead reveal">植物は根から吸った水を葉から蒸散させ、その気化熱で葉面温度を下げています。水が足りなくなると蒸散が止まり、葉の温度が気温に近づく——この温度差（ΔT）が、水やりサインです。</p>
+    <div class="principle-grid">
+      <div class="leaf-diagram reveal">
+        <div class="leaf-row">
+          <div class="leaf-case">
+            <div class="leaf-icon">🍃</div>
+            <div class="leaf-temp temp-cool">気温より低い</div>
+            <div class="leaf-label">蒸散が活発<br>＝ 水分は十分</div>
+          </div>
+          <div class="leaf-case">
+            <div class="leaf-icon">🥀</div>
+            <div class="leaf-temp temp-hot">気温に近い・高い</div>
+            <div class="leaf-label">蒸散が停止<br>＝ 水分が不足</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <table class="judge-table">
+          <tr><th>表示</th><th>状態</th><th>めやす</th></tr>
+          <tr><td><span class="jd jd-ok">OK</span></td><td>蒸散が活発</td><td>水分は足りています</td></tr>
+          <tr><td><span class="jd jd-watch">WATCH</span></td><td>蒸散が低下ぎみ</td><td>近いうちに水やりを</td></tr>
+          <tr><td><span class="jd jd-water">WATER</span></td><td>蒸散停止の可能性</td><td>水やりをおすすめ</td></tr>
+        </table>
+        <p class="principle-note">※ 判定のしきい値は現在、実際の植物での検証・校正を進めている段階です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section id="specs">
+  <div class="wrap">
+    <div class="kicker reveal">UNDER THE HOOD</div>
+    <h2 class="sec-title reveal">中身は、本気の組込み技術。</h2>
+    <p class="sec-lead reveal">家電や産業機器と同じ組込み開発のアプローチで、センサ制御から表示まで自前実装しています。</p>
+    <div class="spec-grid">
+      <div class="spec-card reveal">
+        <div class="icon">🌡️</div>
+        <h4>赤外線アレイセンサ</h4>
+        <span class="mono">Panasonic Grid-EYE AMG8833</span>
+        <p>8×8画素の温度分布を毎秒10回取得。補間処理で滑らかなサーマルマップを描画。</p>
+      </div>
+      <div class="spec-card reveal">
+        <div class="icon">💨</div>
+        <h4>環境センサ</h4>
+        <span class="mono">Bosch BME280</span>
+        <p>気温・湿度を計測し、葉温との差分（ΔT）計算の基準に使います。</p>
+      </div>
+      <div class="spec-card reveal">
+        <div class="icon">📟</div>
+        <h4>本体</h4>
+        <span class="mono">M5Stack（ESP32）</span>
+        <p>カラー液晶・ボタン・バッテリ一体型。WiFi内蔵で、将来のアプリ連携に対応します。</p>
+      </div>
+      <div class="spec-card reveal">
+        <div class="icon">⚙️</div>
+        <h4>ファームウェア</h4>
+        <span class="mono">ESP-IDF + FreeRTOS / C</span>
+        <p>センサドライバ・LCD制御・補間アルゴリズムまでフルスクラッチで実装しています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section class="eco">
+  <div class="wrap">
+    <div class="kicker reveal">ECOSYSTEM</div>
+    <h2 class="sec-title reveal">「そだリー」とつながる、測れる園芸へ。</h2>
+    <p class="sec-lead reveal">測定器はサステナグリーン構想の一部です。観察アプリ「そだリー」の記録と測定器の実測データを組み合わせ、育てる判断を支えるデータの循環をつくります（連携機能は開発予定）。</p>
+    <div class="eco-flow reveal">
+      <div class="eco-node">
+        <span class="ic">📱</span>
+        <span class="nm">そだリー</span>
+        <span class="ds">観察を記録する</span>
+      </div>
+      <span class="eco-arrow">→</span>
+      <div class="eco-node hot">
+        <span class="ic">🌡️</span>
+        <span class="nm">測定器</span>
+        <span class="ds">状態を実測する</span>
+      </div>
+      <span class="eco-arrow">→</span>
+      <div class="eco-node">
+        <span class="ic">🤖</span>
+        <span class="nm">AI相談</span>
+        <span class="ds">行動に翻訳する</span>
+      </div>
+      <span class="eco-arrow">→</span>
+      <div class="eco-node">
+        <span class="ic">🔄</span>
+        <span class="nm">データ循環</span>
+        <span class="ds">地域へ価値を返す</span>
+      </div>
+    </div>
+    <div class="eco-center reveal">
+      <a class="btn btn-gold" href="sodary.html">そだリーを見る →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HONEST -->
+<section>
+  <div class="wrap">
+    <div class="honest-box reveal">
+      <div class="honest-icon">🤝</div>
+      <div>
+        <h4>正直に、試作段階です。</h4>
+        <p>この測定器は現在、<strong>プロトタイプによる原理検証の段階</strong>です。製品としての販売はまだ行っていません。</p>
+        <p>葉温と気温の差による水ストレス推定は植物生理学の研究知見に基づいていますが、本機の判定しきい値は植物の種類や環境による調整が未検証です。実際の植物での測定データを集めながら、校正を進めています。</p>
+        <p>開発の進捗は <a href="https://x.com/sodary_app" target="_blank" rel="noopener">X（@sodary_app）</a> でそのまま発信しています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="road" style="padding-top:0;">
+  <div class="wrap">
+    <div class="kicker reveal">ROADMAP</div>
+    <h2 class="sec-title reveal">これからの道のり</h2>
+    <p class="sec-lead reveal">大きく語る前に、小さく確かめる。一歩ずつ進めます。</p>
+    <div class="road-track">
+      <div class="road-card reveal">
+        <div class="road-phase">STEP 1 — 済</div>
+        <h4>原理プロトタイプ</h4>
+        <p>センサ読取・サーマル表示・ΔT判定の基本動作を確立しました。</p>
+      </div>
+      <div class="road-card now reveal">
+        <div class="road-phase">STEP 2</div>
+        <h4>実測検証</h4>
+        <p>実際の植物で判定しきい値を校正中。水やり前後のΔT変化を記録しています。</p>
+        <span class="road-badge-now">▶ 現在地</span>
+      </div>
+      <div class="road-card reveal">
+        <div class="road-phase">STEP 3</div>
+        <h4>そだリー連携</h4>
+        <p>WiFi経由で測定結果を観察記録に自動ひも付けします（開発予定）。</p>
+      </div>
+      <div class="road-card reveal">
+        <div class="road-phase">STEP 4</div>
+        <h4>実証・製品化判断</h4>
+        <p>市民農園での実証と専用筐体の設計を経て、製品化の可否を判断します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-sec">
+  <div class="kicker">FOLLOW THE JOURNEY</div>
+  <h2>開発の現在地を、そのまま発信しています。</h2>
+  <p>試作の試行錯誤も、測定データも、ぜんぶ込みで。</p>
+  <a class="btn btn-gold" href="https://x.com/sodary_app" target="_blank" rel="noopener">X で開発を追う →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">サステナ<em>グリーン</em></div>
+  <div class="footer-links">
+    <a href="index.html">プラットフォーム構想</a> ｜ <a href="sodary.html">そだリー</a> ｜ 植物健康チェッカー
+  </div>
+  <p>本ページは試作・検証段階の内容で、判定精度・仕様は今後変わる可能性があります。</p>
+  <a href="https://x.com/sodary_app" target="_blank" rel="noopener" class="footer-x">
+    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    そだリーをXでフォロー
+  </a>
+</footer>
+
+<script>
+// Topbar scroll
+const topbar=document.getElementById('topbar');
+window.addEventListener('scroll',()=>{
+  topbar.classList.toggle('scrolled',window.scrollY>20);
+});
+
+// ヒーローサーマルモック
+(function(){
+  const grid=document.getElementById('heroThermal');
+  const heat=[
+    [0,0,1,1,1,1,0,0],[0,1,2,3,3,2,1,0],
+    [1,2,3,4,4,3,2,1],[1,3,4,5,5,4,3,1],
+    [1,3,4,5,5,4,3,1],[1,2,3,4,4,3,2,1],
+    [0,1,2,3,3,2,1,0],[0,0,1,1,1,1,0,0]];
+  const colors=['#1565c0','#1e88e5','#43a047','#fdd835','#fb8c00','#e53935'];
+  heat.flat().forEach(v=>{
+    const c=document.createElement('div');
+    c.style.background=colors[v];
+    grid.appendChild(c);
+  });
+})();
+
+// Scroll reveal
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

@@ -398,6 +398,35 @@ h2.sec-title{
 .sensor-val.ok{color:var(--sprout);}
 .sensor-val.warn{color:var(--amber);}
 .sensor-val.alert{color:#ff7b5a;}
+/* ===== CHECKER DEVICE MOCK (測定器試作機) ===== */
+.checker-device{
+  background:#2b2b2b;border-radius:18px;
+  padding:16px 16px 12px;
+  box-shadow:0 16px 40px rgba(30,24,16,0.25);
+  max-width:340px;margin:0 auto;
+}
+.checker-screen{
+  background:#000;border-radius:8px;
+  aspect-ratio:4/3;display:flex;overflow:hidden;
+}
+.checker-map{
+  flex:3;display:grid;
+  grid-template-columns:repeat(8,1fr);
+  grid-template-rows:repeat(8,1fr);
+  gap:1px;
+}
+.checker-side{
+  flex:1.15;border-left:2px solid #1a3a2a;
+  padding:10px 8px;
+  font-family:var(--font-mono);font-size:10px;
+  display:flex;flex-direction:column;gap:7px;
+}
+.checker-side .ck-l{display:block;color:#00bcd4;font-size:8px;letter-spacing:0.08em;}
+.checker-side .ck-v{display:block;color:#eee;}
+.checker-btns{
+  display:flex;justify-content:center;gap:26px;margin-top:10px;
+}
+.checker-btns span{width:30px;height:10px;background:#444;border-radius:4px;display:block;}
 .feat-text{}
 .feat-label{
   font-size:11px;font-weight:700;
@@ -707,6 +736,7 @@ footer{
     <a href="#how">仕組み</a>
     <a href="#cycle">事業モデル</a>
     <a href="#sodary">そだリー</a>
+    <a href="checker.html">測定器</a>
     <a href="#contact" class="btn-cta">お問い合わせ</a>
   </nav>
 </div>
@@ -876,38 +906,34 @@ footer{
       </div>
     </div>
 
-    <!-- Feature 2: Sensor -->
+    <!-- Feature 2: Sensor (試作機 動作中) -->
     <div class="feat-pair reverse reveal">
       <div class="feat-visual">
-        <div class="sensor-mock">
-          <div class="sensor-row">
-            <span class="sensor-label">葉面温度</span>
-            <span class="sensor-val ok">27.3 ℃　▲ 正常</span>
+        <div class="checker-device">
+          <div class="checker-screen">
+            <div class="checker-map" id="checkerThermal"></div>
+            <div class="checker-side">
+              <div><span class="ck-l">AIR</span><span class="ck-v">26.4C</span></div>
+              <div><span class="ck-l">HUM</span><span class="ck-v">62%</span></div>
+              <div><span class="ck-l">dT</span><span class="ck-v">3.1C</span></div>
+              <div><span class="ck-v" style="color:#8fb86a;font-weight:700;">OK</span></div>
+            </div>
           </div>
-          <div class="sensor-row">
-            <span class="sensor-label">NDVI（植物活性）</span>
-            <span class="sensor-val warn">0.42　△ やや低下</span>
-          </div>
-          <div class="sensor-row">
-            <span class="sensor-label">土壌水分</span>
-            <span class="sensor-val alert">18 %　▼ 要水やり</span>
-          </div>
-          <div class="sensor-row">
-            <span class="sensor-label">水ストレス判定</span>
-            <span class="sensor-val warn">軽度あり</span>
-          </div>
+          <div class="checker-btns"><span></span><span></span><span></span></div>
         </div>
-        <div class="feat-visual-label">ハンディ植物健康診断器（試作構想）</div>
+        <div class="feat-visual-label">植物健康チェッカー試作機の表示イメージ（開発中）</div>
       </div>
       <div class="feat-text">
         <div class="feat-label">実測診断</div>
         <h3>植物の「本当の状態」を実測</h3>
-        <p>葉の温度（水ストレス指標）とスペクトル（NDVI＝植物活性）を測り、見た目では分からない不調を捉えます。専門指標を、AIが「水をあげて／様子見で大丈夫」という行動に翻訳します。</p>
+        <p>葉の温度分布をサーモグラフィで読み、気温との差（ΔT）から水ストレスを判定する試作機が動き始めました。蒸散が止まった葉は温度が上がる——その生理サインを、土に触れず数秒で捉えます。判定しきい値は現在、実際の植物で検証中です。</p>
         <div class="pills">
-          <span class="pill">葉温 = 水ストレス</span>
-          <span class="pill">NDVI = 活性</span>
-          <span class="pill">土壌水分</span>
-          <span class="pill">家庭で数秒</span>
+          <span class="pill">葉温 × 気温 = 水ストレス</span>
+          <span class="pill">非接触・数秒</span>
+          <span class="pill">試作機 動作中</span>
+        </div>
+        <div style="margin-top:24px;">
+          <a href="checker.html" class="btn btn-ghost" style="padding:11px 24px;font-size:14px;">測定器の詳細を見る →</a>
         </div>
       </div>
     </div>
@@ -1055,7 +1081,7 @@ footer{
         <div class="road-body">
           <div class="road-phase">PHASE 2</div>
           <h4>測定器の試作・実証</h4>
-          <p>市民農園で測定器を試し、水ストレス判定の有効性と利用者の受け入れを確かめる。</p>
+          <p>サーモグラフィ式の試作機が動作開始。実際の植物で判定しきい値を校正し、市民農園での実証につなげる。<a href="checker.html" style="color:var(--moss);font-weight:700;">詳細 →</a></p>
         </div>
       </div>
       <div class="road-card reveal">
@@ -1115,6 +1141,23 @@ const topbar = document.getElementById('topbar');
 window.addEventListener('scroll',()=>{
   topbar.classList.toggle('scrolled',window.scrollY > 20);
 });
+
+// 測定器サーマルモック描画
+(function(){
+  const grid=document.getElementById('checkerThermal');
+  if(!grid)return;
+  const heat=[
+    [0,0,1,1,1,1,0,0],[0,1,2,3,3,2,1,0],
+    [1,2,3,4,4,3,2,1],[1,3,4,5,5,4,3,1],
+    [1,3,4,5,5,4,3,1],[1,2,3,4,4,3,2,1],
+    [0,1,2,3,3,2,1,0],[0,0,1,1,1,1,0,0]];
+  const colors=['#1565c0','#1e88e5','#43a047','#fdd835','#fb8c00','#e53935'];
+  heat.flat().forEach(v=>{
+    const c=document.createElement('div');
+    c.style.background=colors[v];
+    grid.appendChild(c);
+  });
+})();
 
 // Scroll reveal
 const observer = new IntersectionObserver((entries)=>{
